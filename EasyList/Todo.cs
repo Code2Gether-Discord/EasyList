@@ -18,33 +18,29 @@ namespace EasyList
         
         public Todo() // Defaults
         {
-            Title = null;
-            Description = null;
             IsCompleted = false;
             Priority = Priority.Normal;
-        }
-        public Todo(int id) : this()
-        {
-             Id = id;
         }
         
         public override string ToString()
         {
-            var output = new StringBuilder($"{Id}");
+       
+            var output = new StringBuilder($"{Id} -");
             var priorityChar = Priority switch
             {
-                Priority.Low => "L",
-                Priority.Normal => "N",
-                Priority.High => "H",
+                Priority.Low => "Low",
+                Priority.Normal => "Normal",
+                Priority.High => "High",
                 _ => string.Empty
             };
 
-            output.Append($"{priorityChar} ");
-            output.AppendLine($"{(!string.IsNullOrEmpty(Title) ? Title : "-")}");
+            output.Append($" {priorityChar} Priority - ");
+            output.AppendLine($"{(!string.IsNullOrWhiteSpace(Title) ? Title : "-")}");
             output.Append($"Status: {(IsCompleted ? "Complete" : "In Progress")}");
             return output.ToString();
             
         }
+        
         
     }
 }
