@@ -2,7 +2,7 @@
 
 namespace EasyList
 {
-    public enum TodoPriority
+    public enum Priority
     {
         Low,
         Normal,
@@ -10,67 +10,40 @@ namespace EasyList
     }
     public class Todo
     {
-        public int Id { get; } 
+        public int Id { get; init; } 
         public string Title { get; set; } 
-        public bool Completion { get; set; }
-        public TodoPriority Priority { get; set; }
+        public bool IsCompleted { get; set; }
+        public Priority Priority { get; set; }
         public string Description { get; set; }
         
-        public Todo(int id)
+        public Todo() // Defaults
         {
-            Id = id;
-            Title = string.Empty;
-            Description = string.Empty;
-            Completion = false;
-            Priority = TodoPriority.Normal;
+            Title = null;
+            Description = null;
+            IsCompleted = false;
+            Priority = Priority.Normal;
         }
-        public Todo(int id, string title)
+        public Todo(int id) : this()
         {
-            Id = id;
-            Title = title;
-            Description = string.Empty;
-            Completion = false;
-            Priority = TodoPriority.Normal;
+             Id = id;
         }
-        public Todo(int id, string title, string description)
-        {
-            Id = id;
-            Title = title;
-            Description = description;
-            Completion = false;
-            Priority = TodoPriority.Normal;
-        }
-        public Todo(int id, string title, TodoPriority priority)
-        {
-            Id = id;
-            Title = title;
-            Description = string.Empty;
-            Completion = false;
-            Priority = priority;
-        }
-        public Todo(int id, string title, string description, TodoPriority priority)
-        {
-            Id = id;
-            Title = title;
-            Description = description;
-            Completion = false;
-            Priority = priority;
-        }
+        
         public override string ToString()
         {
             var output = new StringBuilder($"{Id}");
             var priorityChar = Priority switch
             {
-                TodoPriority.Low => "L",
-                TodoPriority.Normal => "N",
-                TodoPriority.High => "H",
+                Priority.Low => "L",
+                Priority.Normal => "N",
+                Priority.High => "H",
                 _ => string.Empty
             };
 
             output.Append($"{priorityChar} ");
-            output.AppendLine(Title);
-            output.Append($"Status: {(Completion ? "Complete" : "In Progress")}");
+            output.AppendLine($"{(!string.IsNullOrEmpty(Title) ? Title : "-")}");
+            output.Append($"Status: {(IsCompleted ? "Complete" : "In Progress")}");
             return output.ToString();
+            
         }
         
     }
