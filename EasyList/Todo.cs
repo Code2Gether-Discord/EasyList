@@ -1,4 +1,6 @@
-﻿namespace EasyList
+﻿using System.Text;
+
+namespace EasyList
 {
     public class Todo
     {
@@ -16,7 +18,21 @@
         }
 
         
-        public override string ToString() => $"{Id} " + Title + $"\nStatus: {(Completion ? "Complete" : "In Progress")}";
+        protected Todo() // add a protected default constructor ?
+        {
+            //Id = 0;
+            //Title = string.Empty;
+            //Completion = false;
+        }
+
+
+        public override string ToString()
+        {
+            var output = new StringBuilder($"{Id} ");
+            output.AppendLine(Title);
+            output.Append($"Status: {(Completion ? "Complete" : "In Progress")}");
+            return output.ToString();
+        }
         
     }
 }
