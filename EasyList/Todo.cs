@@ -16,7 +16,6 @@ namespace EasyList
             Title = title;
             Completion = false;
         }
-
         
         protected Todo() // add a protected default constructor ?
         {
