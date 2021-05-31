@@ -1,0 +1,25 @@
+1
+add go to library -p N -t 1/6/2021
+
+1
+add get the c# book -t 3/6/2021 -p L 
+
+1
+add complete project -t 2/6/2021 -p High
+
+5
+list p
+
+2
+del 2
+
+5
+list p
+
+4
+done 1
+
+5
+list p
+
+
