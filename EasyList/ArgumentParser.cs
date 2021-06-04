@@ -24,7 +24,7 @@ namespace EasyList
                     {
                         StartIndex = EndIndex + 1;
                     }
-                    else if (!flag)
+                    else
                     {
                         positions.Add(args[StartIndex - 1], (StartIndex, EndIndex - 1));
                         flag = !flag;

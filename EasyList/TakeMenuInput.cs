@@ -83,6 +83,7 @@ namespace EasyList
             Console.WriteLine("3.READ A TASK");
             Console.WriteLine("4.MARK AS DONE");
             Console.WriteLine("5.LIST ALL TASK");
+            Console.WriteLine("6.EXIT");
         }
     }
 }
