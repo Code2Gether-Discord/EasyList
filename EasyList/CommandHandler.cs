@@ -34,17 +34,18 @@ namespace EasyList
                 //del 2
                 //del 4 5
                 //in menu input the user should not be forced to use the del keyword
-                foreach (var item in ArgumentParser.ParseDelete(actionItem))
+                foreach (var item in ArgumentParser.ParseMultipleConsecutiveNumbers(actionItem.AsSpan(1)))
                 {
-                    Console.WriteLine($"Todo: {inMemoryRepository.Delete(GetRealId(item))} DELETED");
+                    var _ = GetRealId(item) ?? throw new Exception("Id not found for deleting");
+                    Console.WriteLine($"Todo: {inMemoryRepository.Delete(_)} DELETED");
                 }
             }
             else if ((actionItem.Length == 1) && (int.TryParse(actionItem[0],out int temp)))
             {
                 //Parse Read Command
                 //4
-
-                Todo todo = inMemoryRepository.Get(GetRealId(ArgumentParser.ParseGet(actionItem[0])));
+                var _ = GetRealId(ArgumentParser.ParseGet(actionItem[0])) ?? throw new Exception("Id not found for reading.");
+                Todo todo = inMemoryRepository.Get(_);
                 Console.WriteLine($"Todo: {todo.Label}");
                 if(todo.Description != null)
                 {
@@ -63,9 +64,10 @@ namespace EasyList
                 //done 1 4 
                 //in menu input the user should not be forced to use the done keyword
 
-                foreach (var item in ArgumentParser.ParseMarkAsDone(actionItem))
+                foreach (var item in ArgumentParser.ParseMultipleConsecutiveNumbers(actionItem.AsSpan(1)))
                 {
-                    Console.WriteLine($"Todo: {inMemoryRepository.MarkAsDone(GetRealId(item))} Completed");
+                    var _ = GetRealId(item) ?? throw new Exception("Id not found for marking as done");
+                    Console.WriteLine($"Todo: {inMemoryRepository.MarkAsDone(_)} Completed");
                 }
             }
             else if (string.Compare(actionItem[0], "list", true) == 0)
@@ -89,7 +91,7 @@ namespace EasyList
             }
         }
 
-        public static int GetRealId(int id)
+        public static int? GetRealId(int id)
         {
             int temp = 1;
             foreach (var item in inMemoryRepository.GetAllTask(lastOrder))
@@ -100,7 +102,7 @@ namespace EasyList
                 }
                 ++temp;
             }
-            return -1;
+            return null;
             //need to check this before using
         }
     }

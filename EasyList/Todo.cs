@@ -29,7 +29,7 @@ namespace EasyList
         //Add Task Duration relating with duedate
         // or allow both duration with input and set only the duedate
 
-        public int Id { get => id;}
+        public int Id => id;
         public string Label
         {
             get => label;

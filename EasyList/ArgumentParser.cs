@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Text;
+using System.Linq;
 using System.Collections.Generic;
 
 namespace EasyList
@@ -56,22 +57,9 @@ namespace EasyList
             return (label,description, dueDate, priority);
         }
 
-        public static IEnumerable<int> ParseDelete(string[] args)
+        public static IEnumerable<int> ParseMultipleConsecutiveNumbers(Span<string> args)
         {
-            for (int i = 1; i < args.Length; i++)
-            {
-                    
-                yield return int.Parse(args[i]);
-            }
-        }
-
-        public static IEnumerable<int> ParseMarkAsDone(string[] args)
-        {
-            for (int i = 1; i < args.Length; i++)
-            {
-
-                yield return int.Parse(args[i]);
-            }
+            return args.ToArray().Select(x => int.Parse(x));
         }
 
         public static int ParseGet(string args)

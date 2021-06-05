@@ -19,18 +19,13 @@ namespace EasyList
                             break;
                         }
                     case 2:
+                    case 4:
                         {
-                            Console.WriteLine("Enter the Task ID below:");
+                            Console.WriteLine("Enter the Task ID(s) below:");
                             CommandHandler.Command(Console.ReadLine());
                             break;
                         }
                     case 3:
-                        {
-                            Console.WriteLine("Enter the Task ID below:");
-                            CommandHandler.Command(Console.ReadLine());
-                            break;
-                        }
-                    case 4:
                         {
                             Console.WriteLine("Enter the Task ID below:");
                             CommandHandler.Command(Console.ReadLine());
