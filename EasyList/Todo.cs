@@ -68,7 +68,7 @@ namespace EasyList
         }
         public TodoStatus Status { get; set; } = TodoStatus.INPROGRESS;
 
-        public Todo(string Label, string Description = null, DateTimeOffset? DueDate = null, TodoPriority priority = TodoPriority.LOW)
+        public Todo(string Label, string? Description = null, DateTimeOffset? DueDate = null, TodoPriority priority = TodoPriority.LOW)
         {
             this.id = ++TodoCount;
             this.Label = Label;

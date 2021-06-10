@@ -7,8 +7,7 @@ namespace EasyList
 {
     public static class ArgumentParser
     {
-
-        public static (string, string, DateTimeOffset, Todo.TodoPriority) ParseAdd(string[] args)
+        public static Todo ParseAdd(string[] args)
         {
             // describes all valid parameters
             List<string> OptionalParameterList = new List<string>() {"add", "-d", "-t", "-p", };
@@ -50,11 +49,11 @@ namespace EasyList
             }
 
             string label = getData("add").ToString().Trim();
-            string description = positions.ContainsKey("-d") ? getData("-d").ToString() : null;
+            string? description = positions.ContainsKey("-d") ? getData("-d").ToString() : null;
             DateTimeOffset dueDate = positions.ContainsKey("-t") ? DateTimeOffset.Parse(getData("-t").ToString()) : DateTimeOffset.MaxValue;
             Todo.TodoPriority priority = positions.ContainsKey("-p") ? Enum.Parse<Todo.TodoPriority>(getData("-p").ToString().ToUpper() ) : Todo.TodoPriority.LOW;
 
-            return (label,description, dueDate, priority);
+            return new Todo(label,description, dueDate, priority);
         }
 
         public static IEnumerable<int> ParseMultipleConsecutiveNumbers(Span<string> args)

@@ -15,26 +15,26 @@ namespace EasyList
                     case 1:
                         {
                             Console.WriteLine("Enter the Task below:");
-                            CommandHandler.Command(Console.ReadLine());
+                            CommandHandler.Command(TakeValidCommand());
                             break;
                         }
                     case 2:
                     case 4:
                         {
                             Console.WriteLine("Enter the Task ID(s) below:");
-                            CommandHandler.Command(Console.ReadLine());
+                            CommandHandler.Command(TakeValidCommand());
                             break;
                         }
                     case 3:
                         {
                             Console.WriteLine("Enter the Task ID below:");
-                            CommandHandler.Command(Console.ReadLine());
+                            CommandHandler.Command(TakeValidCommand());
                             break;
                         }
                     case 5:
                         {
                             Console.WriteLine("Enter the order to list Tasks:");
-                            CommandHandler.Command(Console.ReadLine());
+                            CommandHandler.Command(TakeValidCommand());
                             break;
                         }
                     case 6:
@@ -68,7 +68,26 @@ namespace EasyList
             }
             return choice;
         }
-
+        private static string TakeValidCommand()
+        {
+            string input = string.Empty;
+            bool isValidCommand = false;
+            while (!isValidCommand)
+            {
+#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
+                input = Console.ReadLine();
+#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
+                if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
+                {
+                    Console.WriteLine("Invalid Command!!!");
+                    Console.WriteLine("Enter Again");
+                    input = string.Empty;
+                    continue;
+                }
+                    isValidCommand = true;
+            }
+            return input;
+        }
         private static void DisplayMenu()
         {
             Console.WriteLine("Welcome to EasyList:");

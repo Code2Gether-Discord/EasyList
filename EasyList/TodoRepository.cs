@@ -38,13 +38,13 @@ namespace EasyList
         }
 
         public Todo Edit(int Id, 
-                        string Label = null, 
-                        string Description = null, 
+                        string? Label = null, 
+                        string? Description = null, 
                         DateTimeOffset? DueDate = null, 
                         Todo.TodoPriority priority = Todo.TodoPriority.LOW, 
                         Todo.TodoStatus status = Todo.TodoStatus.INPROGRESS)
         {
-            if(Id > 1)
+            if(Id > 1 && !string.IsNullOrEmpty(Label))
             {
                 TodoList[Id - 1].Label = Label ?? TodoList[Id - 1].Label;
                 TodoList[Id - 1].Description = Description;
