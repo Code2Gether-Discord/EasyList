@@ -55,8 +55,8 @@ namespace EasyList
                 case "del":
                     foreach (var item in ArgumentParser.ParseMultipleConsecutiveNumbers(actionItem.AsSpan(1)))
                     {
-                        var _ = GetRealId(item) ?? throw new Exception("Id not found for deleting");
-                        Console.WriteLine($"Todo: {inMemoryRepository.Delete(_)} DELETED");
+                        var tmp = GetRealId(item) ?? throw new Exception("Id not found for deleting");
+                        Console.WriteLine($"Todo: {inMemoryRepository.Delete(tmp)} DELETED");
                     }
                     break;
                 //Parse Mark As Done Command
@@ -66,8 +66,8 @@ namespace EasyList
                 case "done":
                 foreach (var item in ArgumentParser.ParseMultipleConsecutiveNumbers(actionItem.AsSpan(1)))
                 {
-                    var _ = GetRealId(item) ?? throw new Exception("Id not found for marking as done");
-                    Console.WriteLine($"Todo: {inMemoryRepository.MarkAsDone(_)} Completed");
+                    var tmp = GetRealId(item) ?? throw new Exception("Id not found for marking as done");
+                    Console.WriteLine($"Todo: {inMemoryRepository.MarkAsDone(tmp)} Completed");
                 }
                     break;
                 //Parse List All Task Command

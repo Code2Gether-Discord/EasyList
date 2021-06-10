@@ -17,11 +17,11 @@ namespace EasyList
 
         public string Delete(int Id)
         {
-            if (Id > 1)
+            if (Id > 0)
             {
-                var todoLabel = TodoList[Id - 1].Label;
-                TodoList.Remove(Get(Id));
-                return todoLabel;
+                var todo = TodoList[Id - 1];
+                TodoList.Remove(todo);
+                return todo.Label;
             }
             return string.Empty;           
         }
@@ -44,7 +44,7 @@ namespace EasyList
                         Todo.TodoPriority priority = Todo.TodoPriority.LOW, 
                         Todo.TodoStatus status = Todo.TodoStatus.INPROGRESS)
         {
-            if(Id > 1 && !string.IsNullOrEmpty(Label))
+            if(Id > 0 )
             {
                 TodoList[Id - 1].Label = Label ?? TodoList[Id - 1].Label;
                 TodoList[Id - 1].Description = Description;
