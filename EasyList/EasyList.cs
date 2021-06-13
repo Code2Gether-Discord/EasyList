@@ -4,7 +4,7 @@ namespace EasyList
     public class EasyList
     {
 
-        public static void Main(String[] args)
+        public static void Main(string[] args)
         {
             if (args.Length > 1)
             {
@@ -12,7 +12,7 @@ namespace EasyList
             }
             else
             {
-                TakeMenuInput.Input();
+                TodoMenu.Run();
             }
         }
     }

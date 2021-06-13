@@ -24,7 +24,7 @@ namespace EasyList
 
         private int id;
         private string label;
-        private string description;
+        private string? description;
         private DateTimeOffset dueDate;
         //Add Task Duration relating with duedate
         // or allow both duration with input and set only the duedate
@@ -46,7 +46,7 @@ namespace EasyList
                 }
             }
         }
-        public string Description { get => description; set => description = value; }
+        public string? Description { get => description; set => description = value; }
         public TodoPriority Priority { get; set; } = TodoPriority.LOW;
                
         public DateTimeOffset CreatedDate { get; } = DateTimeOffset.UtcNow;
@@ -78,15 +78,15 @@ namespace EasyList
             this.Status = TodoStatus.INPROGRESS;
         }
 
-        public Todo(Todo newTodo)
-        {
-            this.id = ++TodoCount;
-            this.Label = newTodo.Label;
-            this.Description = newTodo.Description;
-            this.CreatedDate = newTodo.CreatedDate;
-            this.DueDate = newTodo.DueDate;
-            this.Status = newTodo.Status;
-        }
+        //public Todo(Todo newTodo)
+        //{
+        //    this.id = ++TodoCount;
+        //    this.Label = newTodo.Label;
+        //    this.Description = newTodo.Description;
+        //    this.CreatedDate = newTodo.CreatedDate;
+        //    this.DueDate = newTodo.DueDate;
+        //    this.Status = newTodo.Status;
+        //}
         
     }
 }

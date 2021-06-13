@@ -1,14 +1,14 @@
 ﻿using System;
 namespace EasyList
 {
-    public class TakeMenuInput
+    public class TodoMenu
     {
-        public static void Input()
+        public static void Run()
         {
             while(true)
             {
                 DisplayMenu();
-                int choice = TakeValidInput();
+                int choice = GetValidInput();
 
                 switch (choice)
                 {
@@ -49,7 +49,7 @@ namespace EasyList
             }
         }
 
-        private static int TakeValidInput()
+        private static int GetValidInput()
         {
             int choice = 0;
             bool isValidInput = false;
