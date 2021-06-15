@@ -25,7 +25,7 @@ namespace EasyList
         private int id;
         private string label;
         private string? description;
-        private DateTimeOffset dueDate;
+        private DateTimeOffset? dueDate;
         //Add Task Duration relating with duedate
         // or allow both duration with input and set only the duedate
 
@@ -42,7 +42,7 @@ namespace EasyList
                 else
                 {
                     //figure out why ???
-                    throw new Exception("Invalid Label");
+                    throw new ArgumentException("Invalid Label");
                 }
             }
         }
@@ -51,7 +51,7 @@ namespace EasyList
                
         public DateTimeOffset CreatedDate { get; } = DateTimeOffset.UtcNow;
         
-        public DateTimeOffset DueDate
+        public DateTimeOffset? DueDate
         {
             get => dueDate;
             set
@@ -62,7 +62,7 @@ namespace EasyList
                 }
                 else
                 {
-                    throw new Exception("Invalid Date");
+                    throw new ArgumentException("Invalid Date");
                 }
             }
         }
@@ -74,7 +74,7 @@ namespace EasyList
             this.Label = Label;
             this.Description = Description;
             this.Priority = priority;
-            this.DueDate = DueDate ?? DateTimeOffset.MaxValue;
+            this.DueDate = DueDate;
             this.Status = TodoStatus.INPROGRESS;
         }
 

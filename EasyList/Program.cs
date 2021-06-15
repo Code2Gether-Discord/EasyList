@@ -1,7 +1,7 @@
 ﻿using System;
 namespace EasyList
 {
-    public class EasyList
+    public class Program
     {
 
         public static void Main(string[] args)
