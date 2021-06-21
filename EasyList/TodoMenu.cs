@@ -1,103 +1,59 @@
-﻿using System;
+﻿using Sharprompt;
+using System;
 namespace EasyList
 {
     public class TodoMenu
     {
         public static void Run()
         {
+
             while(true)
             {
-                DisplayMenu();
-                int choice = GetValidInput();
-
-                switch (choice)
+                var action = Prompt.Select<TODOMENU>("Welcome to EasyList!");
+                //Refactor this such that adding new should not modify this input layer
+                switch (action)
                 {
-                    case 1:
-                        {
-                            Console.WriteLine("Enter the Task below:");
-                            CommandHandler.Command(TakeValidCommand());
-                            break;
-                        }
-                    case 2:
-                    case 4:
-                        {
-                            Console.WriteLine("Enter the Task ID(s) below:");
-                            CommandHandler.Command(TakeValidCommand());
-                            break;
-                        }
-                    case 3:
-                        {
-                            Console.WriteLine("Enter the Task ID below:");
-                            CommandHandler.Command(TakeValidCommand());
-                            break;
-                        }
-                    case 5:
-                        {
-                            Console.WriteLine("Enter the order to list Tasks:");
-                            CommandHandler.Command(TakeValidCommand());
-                            break;
-                        }
-                    case 6:
-                        {
-                            Console.WriteLine("EXITING");
-                            return;
-                        }
+                    case TODOMENU.ADD:
+                        var input_ADD = Prompt.Input<string>("Enter TODO ");
+                        var parsed_ADD = ParseAdd.Parse(input_ADD.Split());
+                        var newTodo = new Todo(parsed_ADD["label"],
+                                        parsed_ADD["description"],
+                                        DateTimeOffset.Parse(parsed_ADD["duedate"]),
+                                        Enum.Parse<TodoPriority>(parsed_ADD["priority"]));
+                        TodoRepository.Add(newTodo);
+                        break;
 
+                    case TODOMENU.DELETE:
+                        var input_Delete = Prompt.Input<string>("Enter TODO ID(s) ");
+                        foreach (var item in input_Delete.Split())
+                        {
+                            Console.WriteLine($"{TodoRepository.Delete(int.Parse(item))} is Deleted");
+                        }
+                        break;
+
+                    case TODOMENU.VIEW:
+                        var input_View = Prompt.Input<int>("Enter TODO ID ");
+                        //try to make prettier
+                        TodoDisplay.Display(TodoRepository.Get(input_View));
+                        break;
+
+                    case TODOMENU.MARK_AS_DONE:
+                        var inputDone = Prompt.Input<string>("Enter TODO ID(s) ");
+                        foreach (var item in inputDone.Split())
+                        {
+                            Console.WriteLine($"{TodoRepository.MarkAsDone(int.Parse(item))} is Completed.");
+                        }
+                        break;
+
+                    case TODOMENU.LIST_ALL:
+                        var input_List = Prompt.Select<TodoOrder>("Select List Order: ", defaultValue: TodoOrder.CREATEDATE);
+                        TodoDisplay.Display(TodoRepository.GetAllTask(input_List));
+                        break;
                 }
-                Console.ReadKey();//do better than this
+
+                Console.ReadLine();
                 Console.Clear();
             }
-        }
-
-        private static int GetValidInput()
-        {
-            int choice = 0;
-            bool isValidInput = false;
-            while(!isValidInput)
-            {
-
-                isValidInput = int.TryParse(Console.ReadLine(), out choice);
-
-                if(isValidInput && (choice < 1 || choice > 6 ))
-                {
-                    Console.WriteLine("Invalid Choice!!!");
-                    Console.WriteLine("Enter Again");
-                    continue;
-                }
-                break;
-            }
-            return choice;
-        }
-        private static string TakeValidCommand()
-        {
-            string input = string.Empty;
-            bool isValidCommand = false;
-            while (!isValidCommand)
-            {
-#pragma warning disable CS8600 // Converting null literal or possible null value to non-nullable type.
-                input = Console.ReadLine();
-#pragma warning restore CS8600 // Converting null literal or possible null value to non-nullable type.
-                if (string.IsNullOrEmpty(input) || string.IsNullOrWhiteSpace(input))
-                {
-                    Console.WriteLine("Invalid Command!!!");
-                    Console.WriteLine("Enter Again");
-                    input = string.Empty;
-                    continue;
-                }
-                    isValidCommand = true;
-            }
-            return input;
-        }
-        private static void DisplayMenu()
-        {
-            Console.WriteLine("Welcome to EasyList:");
-            Console.WriteLine("What do you want to do:");
-            Console.WriteLine("1.ADD");
-            Console.WriteLine("2.DELETE");
-            Console.WriteLine("3.READ A TASK");
-            Console.WriteLine("4.MARK AS DONE");
-            Console.WriteLine("5.LIST ALL TASK");
-            Console.WriteLine("6.EXIT");
         }
     }
 }

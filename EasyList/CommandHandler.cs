@@ -6,9 +6,9 @@ namespace EasyList
     {
         static TodoRepository inMemoryRepository = new TodoRepository();
         static int relativeCount = 0;
-        static ITodoRepository.TodoOrder lastOrder = ITodoRepository.TodoOrder.CREATEDATE;
+        static TodoOrder lastOrder = TodoOrder.CREATEDATE;
 
-        public static void Command(string action)
+        public void Command(string action)
         {
             var actionItem = action.Split(" ");
             var command = actionItem[0].ToLower();
@@ -23,7 +23,7 @@ namespace EasyList
                 //Parse Read Command
                 //4
                 case "read":
-                    int realId = GetRealId(ArgumentParser.ParseGet(actionItem[0])) ?? throw new Exception("Real id is NULL");
+                    int realId = GetRealId(IArgumentParser.ParseRead(actionItem)) ?? throw new Exception("Real id is NULL");
                     Todo todo = inMemoryRepository.Get(realId);
                     Console.WriteLine($"Todo: {todo.Label}");
                     if (todo.Description != null)
@@ -42,7 +42,7 @@ namespace EasyList
                 //add go to library -d get the c# book -t 15m -p HIGH  //maybe this wont work 
                 //in menu input the user should not be forced to use the add keyword 
                 case "add":
-                    Todo newtodo = ArgumentParser.ParseAdd(actionItem);
+                    Todo newtodo = IArgumentParser.ParseAdd(actionItem);
                     inMemoryRepository.Add(newtodo);
                     Console.WriteLine($"Todo: {newtodo.Label} Added");
                     break;
@@ -53,7 +53,7 @@ namespace EasyList
                 //in menu input the user should not be forced to use the del keyword
                 case "delete":
                 case "del":
-                    foreach (var item in ArgumentParser.ParseMultipleConsecutiveNumbers(actionItem.AsSpan(1)))
+                    foreach (var item in IArgumentParser.ParseMultipleConsecutiveNumbers(actionItem.AsSpan(1)))
                     {
                         var tmp = GetRealId(item) ?? throw new Exception("Id not found for deleting");
                         Console.WriteLine($"Todo: {inMemoryRepository.Delete(tmp)} DELETED");
@@ -64,7 +64,7 @@ namespace EasyList
                 //done 1 4 
                 //in menu input the user should not be forced to use the done keyword
                 case "done":
-                foreach (var item in ArgumentParser.ParseMultipleConsecutiveNumbers(actionItem.AsSpan(1)))
+                foreach (var item in IArgumentParser.ParseMarkAsDone(actionItem))
                 {
                     var tmp = GetRealId(item) ?? throw new Exception("Id not found for marking as done");
                     Console.WriteLine($"Todo: {inMemoryRepository.MarkAsDone(tmp)} Completed");
@@ -77,7 +77,7 @@ namespace EasyList
                 //in menu input the user should not be forced to use the list keyword
                 case "list":
                     relativeCount = 1;
-                    lastOrder = ArgumentParser.ParseList(actionItem);
+                    lastOrder = IArgumentParser.ParseList(actionItem);
                     foreach (var item in inMemoryRepository.GetAllTask(lastOrder))
                     {
                         Console.WriteLine($"#{relativeCount} {item.Label}");

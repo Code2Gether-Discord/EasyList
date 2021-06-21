@@ -4,18 +4,19 @@ using System.Linq;
 
 namespace EasyList
 {
-	public class TodoRepository : ITodoRepository //ensure only one such instance is present 
+
+	public static class TodoRepository 
     {
         //could use and let input layer handle numbering
 		private static List<Todo> TodoList = new List<Todo>();
         
-		public Todo Add(Todo newTodo)
+		public static Todo Add(Todo newTodo)
         {
             TodoList.Add(newTodo);
             return newTodo;
         }
 
-        public string Delete(int Id)
+        public static string Delete(int Id)
         {
             if (Id > 0)
             {
@@ -26,23 +27,23 @@ namespace EasyList
             return string.Empty;           
         }
 
-        public Todo Get(int Id)
+        public static Todo Get(int Id)
         {
             return TodoList[Id - 1]; 
             //handle exception
         }
 
-        public Todo MarkAsDone(int Id)
+        public static string MarkAsDone(int Id)
         {
-            return Edit(Id:Id, status:Todo.TodoStatus.DONE);
+            return Edit(Id:Id, status:TodoStatus.DONE).Label;
         }
 
-        public Todo Edit(int Id, 
+        public static Todo Edit(int Id, 
                         string? Label = null, 
                         string? Description = null, 
                         DateTimeOffset? DueDate = null, 
-                        Todo.TodoPriority priority = Todo.TodoPriority.LOW, 
-                        Todo.TodoStatus status = Todo.TodoStatus.INPROGRESS)
+                        TodoPriority priority = TodoPriority.LOW, 
+                        TodoStatus status = TodoStatus.INPROGRESS)
         {
             if(Id > 0 )
             {
@@ -57,22 +58,22 @@ namespace EasyList
             return null;
         }
 
-        public IEnumerable<Todo> GetAllTask(ITodoRepository.TodoOrder order = ITodoRepository.TodoOrder.CREATEDATE)
+        public static IEnumerable<Todo> GetAllTask(TodoOrder order = TodoOrder.CREATEDATE)
         {
             IEnumerable<Todo> OrderedList;
-            if (order == ITodoRepository.TodoOrder.DUEDATE)
+            if (order == TodoOrder.DUEDATE)
             {
-                OrderedList = TodoList.Where(_todo => _todo.Status == Todo.TodoStatus.INPROGRESS)
+                OrderedList = TodoList.Where(_todo => _todo.Status == TodoStatus.INPROGRESS)
                                       .OrderByDescending(_todo => _todo.DueDate);
             }
-            else if (order == ITodoRepository.TodoOrder.PRIORITY)
+            else if (order == TodoOrder.PRIORITY)
             {
-                OrderedList = TodoList.Where(_todo => _todo.Status == Todo.TodoStatus.INPROGRESS)
+                OrderedList = TodoList.Where(_todo => _todo.Status == TodoStatus.INPROGRESS)
                                       .OrderByDescending(_todo => _todo.Priority);
             }
             else
             {
-                OrderedList = TodoList.Where(_todo => _todo.Status == Todo.TodoStatus.INPROGRESS)
+                OrderedList = TodoList.Where(_todo => _todo.Status == TodoStatus.INPROGRESS)
                                       .OrderByDescending(_todo => _todo.CreatedDate);
             }
             return OrderedList;

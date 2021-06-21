@@ -1,23 +1,22 @@
 ﻿using System;
-using System.Text;
-using System.Linq;
 using System.Collections.Generic;
+using System.Text;
 
 namespace EasyList
 {
-    public static class ArgumentParser
+    public static class ParseAdd
     {
-        public static Todo ParseAdd(string[] args)
+        public static Dictionary<string, string> Parse(string[] args)
         {
             // describes all valid parameters
-            List<string> OptionalParameterList = new List<string>() {"add", "-d", "-t", "-p", };
+            List<string> ParameterList = new List<string>() { "add", "-d", "-t", "-p", };
             Dictionary<string, (int, int)> positions = new Dictionary<string, (int, int)>();
             bool flag = false;
             int StartIndex = 0, EndIndex = 0;
-            
+
             for (; EndIndex < args.Length; ++EndIndex)
             {
-                if (OptionalParameterList.Contains(args[EndIndex].ToLower()))
+                if (ParameterList.Contains(args[EndIndex].ToLower()))
                 {
                     flag = !flag;
                     if (flag)
@@ -47,39 +46,17 @@ namespace EasyList
                 }
                 return temp;
             }
-
             string label = getData("add").ToString().Trim();
             string? description = positions.ContainsKey("-d") ? getData("-d").ToString() : null;
             DateTimeOffset dueDate = positions.ContainsKey("-t") ? DateTimeOffset.Parse(getData("-t").ToString()) : DateTimeOffset.MaxValue;
-            Todo.TodoPriority priority = positions.ContainsKey("-p") ? Enum.Parse<Todo.TodoPriority>(getData("-p").ToString().ToUpper() ) : Todo.TodoPriority.LOW;
+            TodoPriority priority = positions.ContainsKey("-p") ? Enum.Parse<TodoPriority>(getData("-p").ToString().ToUpper()) : TodoPriority.LOW;
 
-            return new Todo(label,description, dueDate, priority);
-        }
-
-        public static IEnumerable<int> ParseMultipleConsecutiveNumbers(Span<string> args)
-        {
-            return args.ToArray().Select(x => int.Parse(x));
-        }
-
-        public static int ParseGet(string args)
-        {
-            return int.Parse(args);
-        }
-
-        public static ITodoRepository.TodoOrder ParseList(string[] args)
-        {
-            if (args.Length > 1)
-            {
-                if (args[1].ToLower() == "priorioty" || args[1].ToLower() == "p")
-                {
-                    return ITodoRepository.TodoOrder.PRIORITY;
-                }
-                else if (args[1].ToLower() == "due" || args[1].ToLower() == "d")
-                {
-                    return ITodoRepository.TodoOrder.DUEDATE;
-                }
-            }
-             return ITodoRepository.TodoOrder.CREATEDATE;
+            return new Dictionary<string, string> {
+                                                    {"label" ,label },
+                                                    {"description",description },
+                                                    {"duedate",dueDate.ToString() },
+                                                    {"priority",priority.ToString() }
+                                                    };
         }
     }
 }

@@ -8,7 +8,7 @@ namespace EasyList
         {
             if (args.Length > 1)
             {
-                //directly parse the string
+                //directly parse the string command
             }
             else
             {
