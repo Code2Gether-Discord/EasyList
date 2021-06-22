@@ -3,7 +3,7 @@ using System.Text;
 
 namespace EasyList
 {
-    public partial class Todo
+    public class Todo
     {
 
         private static int TodoCount = 0;
