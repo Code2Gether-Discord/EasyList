@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="CommandHandler.cs" />
-    <Compile Remove="IArgumentParser.cs" />
-    <Compile Remove="ITodoRepository.cs" />
-    <Compile Remove="NoobArgumentParser.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Sharprompt" Version="2.2.1" />
   </ItemGroup>
 
