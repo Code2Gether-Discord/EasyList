@@ -2,9 +2,9 @@
 
 namespace EasyList
 {
-    public enum TodoStatus : Byte
+    public enum TodoStatus 
     {
-        INPROGRESS,
-        DONE,
+        InProgress,
+        Done,
     }
 }

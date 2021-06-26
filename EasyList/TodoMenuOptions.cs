@@ -2,9 +2,9 @@
 
 public enum TODOMENU
 {
-    ADD,
-    DELETE,
-    VIEW,
-    MARK_AS_DONE,
-    LIST_ALL
+    Add,
+    Delete,
+    View,
+    MarkAsDone,
+    ListAll
 }

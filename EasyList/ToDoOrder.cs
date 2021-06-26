@@ -2,10 +2,10 @@
 
 namespace EasyList
 {
-    public enum TodoOrder : byte
+    public enum TodoOrder 
     {
-        CREATEDATE,
-        DUEDATE,
-        PRIORITY
+        CreateDate,
+        DueDate,
+        Priority
     }
 }

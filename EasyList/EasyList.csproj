@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="Sharprompt" Version="2.2.1" />
+    <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
   </ItemGroup>
 
 </Project>

@@ -2,11 +2,11 @@
 {
     public enum TodoPriority
     {
-        LOW,
-        L = LOW,
-        NORMAL,
-        N = NORMAL,
-        HIGH,
-        H = HIGH,
+        Low,
+        L = Low,
+        Normal,
+        N = Normal,
+        High,
+        H = High,
     }
 }
