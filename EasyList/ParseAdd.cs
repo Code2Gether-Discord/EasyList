@@ -9,31 +9,45 @@ namespace EasyList
         public static Dictionary<string, string> Parse(string[] args)
         {
             // describes all valid parameters
-            List<string> ParameterList = new List<string>() { "add", "-d", "-t", "-p", };
+            var parameterList = new List<string>() { "-d", "-t", "-p"};
             Dictionary<string, (int, int)> positions = new Dictionary<string, (int, int)>();
             bool flag = false;
-            int StartIndex = 0, EndIndex = 0;
+            int index = 0;
+            int startIndex = 0, endIndex = 0;
 
-            for (; EndIndex < args.Length; ++EndIndex)
+            for (; endIndex < args.Length; ++endIndex)
             {
-                if (ParameterList.Contains(args[EndIndex].ToLower()))
+                if (parameterList.Contains(args[endIndex].ToLower()))
                 {
                     flag = !flag;
+                    
                     if (flag)
                     {
-                        StartIndex = EndIndex + 1;
+                        startIndex = endIndex + 1;
+                        if (positions.Count == 0)
+                        {
+                            //when the first parameter is found.
+                            index = endIndex - 1;
+                        }
                     }
                     else
                     {
-                        positions.Add(args[StartIndex - 1], (StartIndex, EndIndex - 1));
+                        positions.Add(args[startIndex - 1], (startIndex, endIndex - 1));
                         flag = !flag;
-                        StartIndex = EndIndex + 1;
+                        startIndex = endIndex + 1;
+                        
                     }
                 }
             }
-            if (EndIndex == args.Length)
+            if (endIndex == args.Length && flag)
             {
-                positions.Add(args[StartIndex - 1], (StartIndex, EndIndex - 1));
+                positions.Add(args[startIndex - 1], (startIndex, endIndex - 1));
+                positions.Add("add", (0,index));
+            }
+            else
+            {
+                //processing for Label
+                positions.Add("add", (startIndex,endIndex - 1));
             }
 
             StringBuilder getData(string parameter)
@@ -49,7 +63,7 @@ namespace EasyList
             string label = getData("add").ToString().Trim();
             string? description = positions.ContainsKey("-d") ? getData("-d").ToString() : null;
             DateTimeOffset dueDate = positions.ContainsKey("-t") ? DateTimeOffset.Parse(getData("-t").ToString()) : DateTimeOffset.MaxValue;
-            TodoPriority priority = positions.ContainsKey("-p") ? Enum.Parse<TodoPriority>(getData("-p").ToString().ToUpper()) : TodoPriority.LOW;
+            TodoPriority priority = positions.ContainsKey("-p") ? Enum.Parse<TodoPriority>(getData("-p").ToString().ToUpper()) : TodoPriority.Low;
 
             return new Dictionary<string, string> {
                                                     {"label" ,label },

@@ -5,78 +5,73 @@ using System.Linq;
 namespace EasyList
 {
 
-	public static class TodoRepository 
+	public class TodoRepository 
     {
-        //could use and let input layer handle numbering
-		private static List<Todo> TodoList = new List<Todo>();
+		private static List<Todo> todoList = new List<Todo>();
         
-		public static Todo Add(Todo newTodo)
+		public static void Add(Todo todo)
         {
-            TodoList.Add(newTodo);
-            return newTodo;
+            todoList.Add(todo);
         }
 
-        public static string Delete(int Id)
+        public static void Delete(Todo todo)
         {
-            if (Id > 0)
-            {
-                var todo = TodoList[Id - 1];
-                TodoList.Remove(todo);
-                return todo.Label;
-            }
-            return string.Empty;           
+                todoList.Remove(todo);
         }
 
         public static Todo Get(int Id)
         {
-            return TodoList[Id - 1]; 
+            return todoList[Id - 1]; 
             //handle exception
         }
 
-        public static string MarkAsDone(int Id)
+        public static void MarkAsDone(Todo todo)
         {
-            return Edit(Id:Id, status:TodoStatus.DONE).Label;
+            Edit(todo.Id, status:TodoStatus.Done);
         }
 
-        public static Todo Edit(int Id, 
+        public static void Edit(int Id, 
                         string? Label = null, 
                         string? Description = null, 
                         DateTimeOffset? DueDate = null, 
-                        TodoPriority priority = TodoPriority.LOW, 
-                        TodoStatus status = TodoStatus.INPROGRESS)
+                        TodoPriority priority = TodoPriority.Low, 
+                        TodoStatus status = TodoStatus.InProgress)
         {
-            if(Id > 0 )
-            {
-                TodoList[Id - 1].Label = Label ?? TodoList[Id - 1].Label;
-                TodoList[Id - 1].Description = Description;
-                TodoList[Id - 1].DueDate = DueDate ?? TodoList[Id - 1].DueDate;
-                TodoList[Id - 1].Priority = priority;
-                TodoList[Id - 1].Status = status;
-                return TodoList[Id - 1];
-            }
-            //catch Exception here
-            return null;
+                var todo = Get(Id);
+                todo.Label = Label ?? todo.Label;
+                todo.Description = Description;
+                todo.DueDate = DueDate ?? todo.DueDate;
+                todo.Priority = priority;
+                todo.Status = status;
         }
 
-        public static IEnumerable<Todo> GetAllTask(TodoOrder order = TodoOrder.CREATEDATE)
+        public static IEnumerable<Todo> GetAllTask(TodoOrder order = TodoOrder.CreateDate)
         {
-            IEnumerable<Todo> OrderedList;
-            if (order == TodoOrder.DUEDATE)
+            IEnumerable<Todo> orderedList;
+            switch (order)
             {
-                OrderedList = TodoList.Where(_todo => _todo.Status == TodoStatus.INPROGRESS)
-                                      .OrderByDescending(_todo => _todo.DueDate);
+                case TodoOrder.DueDate:
+                    {
+                        orderedList = todoList.Where(_todo => _todo.Status == TodoStatus.InProgress)
+                                              .OrderByDescending(_todo => _todo.DueDate);
+                        break;
+                    }
+
+                case TodoOrder.Priority:
+                    {
+                        orderedList = todoList.Where(_todo => _todo.Status == TodoStatus.InProgress)
+                                              .OrderByDescending(_todo => _todo.Priority);
+                        break;
+                    }
+
+                default:
+                    {
+                        orderedList = todoList.Where(_todo => _todo.Status == TodoStatus.InProgress)
+                                              .OrderByDescending(_todo => _todo.CreatedDate);
+                        break;
+                    }
             }
-            else if (order == TodoOrder.PRIORITY)
-            {
-                OrderedList = TodoList.Where(_todo => _todo.Status == TodoStatus.INPROGRESS)
-                                      .OrderByDescending(_todo => _todo.Priority);
-            }
-            else
-            {
-                OrderedList = TodoList.Where(_todo => _todo.Status == TodoStatus.INPROGRESS)
-                                      .OrderByDescending(_todo => _todo.CreatedDate);
-            }
-            return OrderedList;
+            return orderedList;
         }        
     }
 }

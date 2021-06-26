@@ -8,7 +8,8 @@ namespace EasyList
         public static void Display(Todo newTodo)
         {
             Console.WriteLine($"Id: {newTodo.Id}");
-            if(!string.IsNullOrEmpty(newTodo.Description))
+            Console.WriteLine($"Label: {newTodo.Label}");
+            if (!string.IsNullOrEmpty(newTodo.Description))
                 Console.WriteLine($"Description: {newTodo.Description}");
             Console.WriteLine($"Priority: {newTodo.Priority}");
             if(newTodo.DueDate != null)

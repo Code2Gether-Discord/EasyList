@@ -13,7 +13,7 @@ namespace EasyList
                 //Refactor this such that adding new should not modify this input layer
                 switch (action)
                 {
-                    case TODOMENU.ADD:
+                    case TODOMENU.Add:
                         var input_ADD = Prompt.Input<string>("Enter TODO ");
                         var parsed_ADD = ParseAdd.Parse(input_ADD.Split());
                         var newTodo = new Todo(parsed_ADD["label"],
@@ -23,30 +23,34 @@ namespace EasyList
                         TodoRepository.Add(newTodo);
                         break;
 
-                    case TODOMENU.DELETE:
+                    case TODOMENU.Delete:
                         var input_Delete = Prompt.Input<string>("Enter TODO ID(s) ");
                         foreach (var item in input_Delete.Split())
                         {
-                            Console.WriteLine($"{TodoRepository.Delete(int.Parse(item))} is Deleted");
+                            var todoId = TodoRepository.Get(int.Parse(item));
+                            Console.WriteLine($"Deleted: {todoId.Label}");
+                            TodoRepository.Delete(todoId);
                         }
                         break;
 
-                    case TODOMENU.VIEW:
+                    case TODOMENU.View:
                         var input_View = Prompt.Input<int>("Enter TODO ID ");
                         //try to make prettier
                         TodoDisplay.Display(TodoRepository.Get(input_View));
                         break;
 
-                    case TODOMENU.MARK_AS_DONE:
+                    case TODOMENU.MarkAsDone:
                         var inputDone = Prompt.Input<string>("Enter TODO ID(s) ");
                         foreach (var item in inputDone.Split())
                         {
-                            Console.WriteLine($"{TodoRepository.MarkAsDone(int.Parse(item))} is Completed.");
+                            var todoId = TodoRepository.Get(int.Parse(item));
+                            Console.WriteLine($"Completed:{todoId.Label}.");
+                            TodoRepository.MarkAsDone(todoId);
                         }
                         break;
 
-                    case TODOMENU.LIST_ALL:
-                        var input_List = Prompt.Select<TodoOrder>("Select List Order: ", defaultValue: TodoOrder.CREATEDATE);
+                    case TODOMENU.ListAll:
+                        var input_List = Prompt.Select<TodoOrder>("Select List Order: ", defaultValue: TodoOrder.CreateDate);
                         TodoDisplay.Display(TodoRepository.GetAllTask(input_List));
                         break;
                 }
