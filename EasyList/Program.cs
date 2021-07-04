@@ -1,12 +1,16 @@
 ﻿using System;
 namespace EasyList
 {
-    public class Program
+    class Program
     {
-
+        public static ITodoRepository repository;
+        public static TodoLogic todoApp;
         public static void Main(string[] args)
         {
-            if (args.Length > 1)
+            repository = new TodoRepository();
+            todoApp = new TodoLogic(repository);
+
+            if(args.Length > 1)
             {
                 //directly parse the string command
             }
@@ -16,5 +20,4 @@ namespace EasyList
             }
         }
     }
-
 }

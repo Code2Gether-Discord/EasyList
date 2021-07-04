@@ -4,47 +4,19 @@ using System.Linq;
 
 namespace EasyList
 {
-	class TodoRepository 
+	class TodoRepository : ITodoRepository
     {
 		private static List<Todo> todoList = new List<Todo>();
         
-		public static void Add(Todo todo)
+		public void Add(Todo todo)
         {
             todoList.Add(todo);
         }
-
-        public static void Delete(Todo todo)
-        {
-                todoList.Remove(todo);
-        }
-
-        public static Todo Get(int Id)
+        public  Todo Get(int Id)
         {
             return todoList[Id - 1]; 
-            //handle exception
         }
-
-        public static void MarkAsDone(Todo todo)
-        {
-            Edit(todo.Id, status:TodoStatus.Done);
-        }
-
-        public static void Edit(int Id, 
-                        string? Label = null, 
-                        string? Description = null, 
-                        DateTimeOffset? DueDate = null, 
-                        TodoPriority priority = TodoPriority.Low, 
-                        TodoStatus status = TodoStatus.InProgress)
-        {
-                var todo = Get(Id);
-                todo.Label = Label ?? todo.Label;
-                todo.Description = Description;
-                todo.DueDate = DueDate ?? todo.DueDate;
-                todo.Priority = priority;
-                todo.Status = status;
-        }
-
-        public static IEnumerable<Todo> GetAllTask(TodoOrder order = TodoOrder.CreateDate)
+        public IEnumerable<Todo> GetAllTodo(TodoOrder order = TodoOrder.CreateDate)
         {
             IEnumerable<Todo> orderedList;
             switch (order)
@@ -71,7 +43,15 @@ namespace EasyList
                     }
             }
             return orderedList;
-        }        
+        }
+        public void Update(Todo todo)
+        {
+            throw new NotImplementedException();
+        }
+        public void Delete(Todo todo)
+        {
+            todoList.Remove(todo);
+        }
     }
 }
 
