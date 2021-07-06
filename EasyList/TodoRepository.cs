@@ -44,10 +44,6 @@ namespace EasyList
             }
             return orderedList;
         }
-        public void Update(Todo todo)
-        {
-            throw new NotImplementedException();
-        }
         public void Delete(Todo todo)
         {
             todoList.Remove(todo);
