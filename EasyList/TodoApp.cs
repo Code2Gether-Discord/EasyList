@@ -5,25 +5,25 @@ using ConsoleTables;
 
 namespace EasyList
 {
-    class TodoLogic
+    class TodoApp
     {
-        private ITodoRepository _todoCollection;
-        public TodoLogic(ITodoRepository todoCollection)
+        private readonly ITodoRepository _todoRepository;
+        public TodoApp(ITodoRepository todoCollection)
         {
-            _todoCollection = todoCollection;
+            _todoRepository = todoCollection;
         }
 
         public void Add(Todo todo)
         {
-            _todoCollection.Add(todo);
+            _todoRepository.Add(todo);
         }
-        public Todo GetByID(int ID)
+        public Todo GetByID(int id)
         {
-            return _todoCollection.Get(ID);
+            return _todoRepository.Get(id);
         }
         public void Delete(Todo todo)
         {
-            _todoCollection.Delete(todo);
+            _todoRepository.Delete(todo);
         }
         public void MarkAsDone(Todo todo)
         {
@@ -33,17 +33,17 @@ namespace EasyList
         {
             Console.WriteLine($"Id: {todo.Id}");
             Console.WriteLine($"Label: {todo.Label}");
-            if (!string.IsNullOrEmpty(todo.Description))
+            if (!string.IsNullOrWhiteSpace(todo.Description))
                 Console.WriteLine($"Description: {todo.Description}");
             Console.WriteLine($"Priority: {todo.Priority}");
             if (todo.DueDate != null)
                 Console.WriteLine($"DueDate: {todo.DueDate}");
         }
 
-        public void DisplayAllTodo()
+        public void DisplayAllTodo(TodoOrder todoOrder)
         {
             ConsoleTable
-            .From<Todo>(_todoCollection.GetAllTodo())
+            .From<Todo>(_todoRepository.GetAllTodo(todoOrder))
             .Configure(o => o.NumberAlignment = Alignment.Right)
             .Write(Format.Alternative);
         }

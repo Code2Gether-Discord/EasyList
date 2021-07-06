@@ -8,7 +8,6 @@ namespace EasyList
         void Add(Todo todo);
         Todo Get(int Id);
         IEnumerable<Todo> GetAllTodo(TodoOrder orderOfList = TodoOrder.DueDate);
-        void Update(Todo todo);
         void Delete(Todo todo);
     }
 }

@@ -10,8 +10,8 @@ namespace EasyList
         {
             // describes all valid parameters
             var parameterList = new List<string>() { "-d", "-t", "-p"};
-            Dictionary<string, (int, int)> positions = new Dictionary<string, (int, int)>();
-            bool flag = false;
+            Dictionary<string, (int, int)> positions = new();
+            bool Flag = false;
             int index = 0;
             int startIndex = 0, endIndex = 0;
 
@@ -19,9 +19,9 @@ namespace EasyList
             {
                 if (parameterList.Contains(args[endIndex].ToLower()))
                 {
-                    flag = !flag;
+                    Flag = !Flag;
                     
-                    if (flag)
+                    if (Flag)
                     {
                         startIndex = endIndex + 1;
                         if (positions.Count == 0)
@@ -33,13 +33,13 @@ namespace EasyList
                     else
                     {
                         positions.Add(args[startIndex - 1], (startIndex, endIndex - 1));
-                        flag = !flag;
+                        Flag = !Flag;
                         startIndex = endIndex + 1;
                         
                     }
                 }
             }
-            if (endIndex == args.Length && flag)
+            if (endIndex == args.Length && Flag)
             {
                 positions.Add(args[startIndex - 1], (startIndex, endIndex - 1));
                 positions.Add("add", (0,index));
@@ -52,16 +52,16 @@ namespace EasyList
 
             StringBuilder getData(string parameter)
             {
-                StringBuilder temp = new StringBuilder();
+                StringBuilder temp = new();
                 for (int i = positions[parameter].Item1; i <= positions[parameter].Item2; ++i)
                 {
                     temp.Append(args[i]);
-                    temp.Append(" ");
+                    temp.Append(' ');
                 }
                 return temp;
             }
             string label = getData("add").ToString().Trim();
-            string? description = positions.ContainsKey("-d") ? getData("-d").ToString() : null;
+            string? description = positions.ContainsKey("-d") ? getData("-d").ToString() : string.Empty;
             DateTimeOffset dueDate = positions.ContainsKey("-t") ? DateTimeOffset.Parse(getData("-t").ToString()) : DateTimeOffset.MaxValue;
             TodoPriority priority = positions.ContainsKey("-p") ? Enum.Parse<TodoPriority>(getData("-p").ToString().ToUpper()) : TodoPriority.Low;
 

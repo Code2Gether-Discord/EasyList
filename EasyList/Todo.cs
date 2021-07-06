@@ -8,8 +8,8 @@ namespace EasyList
 
         private static int TodoCount = 0;
 
-        private int _id;
-        private string _label;
+        private readonly int _id;
+        private string _label = string.Empty;
         private DateTimeOffset? _dueDate;
         //Add Task Duration relating with duedate
         // or allow both duration with input and set only the duedate

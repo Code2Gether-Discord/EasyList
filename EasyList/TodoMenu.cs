@@ -51,7 +51,7 @@ namespace EasyList
 
                     case TODOMENU.ListAll:
                         var input_List = Prompt.Select<TodoOrder>("Select List Order: ", defaultValue: TodoOrder.CreateDate);
-                        Program.todoApp.DisplayAllTodo();
+                        Program.todoApp.DisplayAllTodo(input_List);
                         break;
                 }
 

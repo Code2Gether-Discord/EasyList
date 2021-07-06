@@ -6,7 +6,7 @@ namespace EasyList
 {
 	class TodoRepository : ITodoRepository
     {
-		private static List<Todo> todoList = new List<Todo>();
+		private static readonly List<Todo> todoList = new();
         
 		public void Add(Todo todo)
         {
@@ -43,10 +43,6 @@ namespace EasyList
                     }
             }
             return orderedList;
-        }
-        public void Update(Todo todo)
-        {
-            throw new NotImplementedException();
         }
         public void Delete(Todo todo)
         {
