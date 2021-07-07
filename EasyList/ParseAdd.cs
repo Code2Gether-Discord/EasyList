@@ -11,7 +11,7 @@ namespace EasyList
             // describes all valid parameters
             var parameterList = new List<string>() { "-d", "-t", "-p"};
             Dictionary<string, (int, int)> positions = new();
-            bool Flag = false;
+            bool flag = false;
             int index = 0;
             int startIndex = 0, endIndex = 0;
 
@@ -19,9 +19,9 @@ namespace EasyList
             {
                 if (parameterList.Contains(args[endIndex].ToLower()))
                 {
-                    Flag = !Flag;
+                    flag = !flag;
                     
-                    if (Flag)
+                    if (flag)
                     {
                         startIndex = endIndex + 1;
                         if (positions.Count == 0)
@@ -33,13 +33,13 @@ namespace EasyList
                     else
                     {
                         positions.Add(args[startIndex - 1], (startIndex, endIndex - 1));
-                        Flag = !Flag;
+                        flag = !flag;
                         startIndex = endIndex + 1;
                         
                     }
                 }
             }
-            if (endIndex == args.Length && Flag)
+            if (endIndex == args.Length && flag)
             {
                 positions.Add(args[startIndex - 1], (startIndex, endIndex - 1));
                 positions.Add("add", (0,index));
