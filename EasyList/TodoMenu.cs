@@ -28,18 +28,15 @@ namespace EasyList
                 _ => throw new InvalidOperationException($"No validator exists for {command}"),
             };
             
-            if (errors is not null)
+            if (errors.Any())
             {
-                if (errors.Any())
+                Console.WriteLine("The input has the following errors:");
+                foreach (var error in errors)
                 {
-                    Console.WriteLine("The input has the following errors:");
-                    foreach (var error in errors)
-                    {
-                        Console.WriteLine("\t"+error);
-                    }
-
-                    return false;
+                    Console.WriteLine("\t"+error);
                 }
+
+                return false;
             }
 
             return true;
