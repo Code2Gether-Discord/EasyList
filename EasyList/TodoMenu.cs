@@ -1,9 +1,50 @@
 ﻿using Sharprompt;
 using System;
+using System.Collections.Generic;
+using System.Linq;
+
 namespace EasyList
 {
     public class TodoMenu
     {
+        private static IEnumerable<string> ValidateAdd(Dictionary<string, string> input)
+        {
+            if (string.IsNullOrWhiteSpace(input["label"]))
+            {
+                yield return "Label cannot be empty";
+            }
+
+            if (DateTimeOffset.Parse(input["duedate"]) < DateTime.UtcNow)
+			{
+                yield return "Due date cannot be in the past";
+			}
+        }
+
+        private static bool Validate(TODOMENU command, Dictionary<string, string> input)
+		{
+            var errors = command switch {
+                TODOMENU.Add => ValidateAdd(input),
+                // register the rest of the options that need to be validated here
+                _ => throw new InvalidOperationException($"No validator exists for {command}"),
+            };
+            
+            if (errors is not null)
+            {
+                if (errors.Any())
+                {
+                    Console.WriteLine("The input has the following errors:");
+                    foreach (var error in errors)
+                    {
+                        Console.WriteLine("\t"+error);
+                    }
+
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
         public static void Run()
         {
 
@@ -15,12 +56,17 @@ namespace EasyList
                 {
                     case TODOMENU.Add:
                         var inputAdd = Prompt.Input<string>("Enter TODO ");
-                        var parsedAdd = ParseAdd.Parse(inputAdd.Split());
-                        var newTodo = new Todo(parsedAdd["label"],
-                                        parsedAdd["description"],
-                                        DateTimeOffset.Parse(parsedAdd["duedate"]),
-                                        Enum.Parse<TodoPriority>(parsedAdd["priority"]));
-                        Program.todoApp.Add(newTodo);
+                        var parsedAdd = ParseAdd.Parse(inputAdd?.Split() ?? Array.Empty<string>());
+
+                        if (Validate(action, parsedAdd))
+						{
+                            var newTodo = new Todo(parsedAdd["label"],
+                                    parsedAdd["description"],
+                                    DateTimeOffset.Parse(parsedAdd["duedate"]),
+                                    Enum.Parse<TodoPriority>(parsedAdd["priority"]));
+                            Program.todoApp.Add(newTodo);
+                        }
+                        
                         break;
 
                     case TODOMENU.Delete:
