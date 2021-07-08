@@ -49,21 +49,10 @@ namespace EasyList
                 //processing for Label
                 positions.Add("add", (startIndex,endIndex - 1));
             }
-
-            StringBuilder getData(string parameter)
-            {
-                StringBuilder temp = new();
-                for (int i = positions[parameter].Item1; i <= positions[parameter].Item2; ++i)
-                {
-                    temp.Append(args[i]);
-                    temp.Append(' ');
-                }
-                return temp;
-            }
-            string label = getData("add").ToString().Trim();
-            string? description = positions.ContainsKey("-d") ? getData("-d").ToString() : string.Empty;
-            DateTimeOffset dueDate = positions.ContainsKey("-t") ? DateTimeOffset.Parse(getData("-t").ToString()) : DateTimeOffset.MaxValue;
-            TodoPriority priority = positions.ContainsKey("-p") ? Enum.Parse<TodoPriority>(getData("-p").ToString().ToUpper()) : TodoPriority.Low;
+            string label = getData("add", args, positions).ToString().Trim();
+            string? description = positions.ContainsKey("-d") ? getData("-d", args, positions).ToString() : string.Empty;
+            DateTimeOffset dueDate = positions.ContainsKey("-t") ? DateTimeOffset.Parse(getData("-t", args, positions).ToString()) : DateTimeOffset.MaxValue;
+            TodoPriority priority = positions.ContainsKey("-p") ? Enum.Parse<TodoPriority>(getData("-p", args, positions).ToString().ToUpper()) : TodoPriority.Low;
 
             return new Dictionary<string, string> {
                                                     {"label" ,label },
@@ -71,6 +60,17 @@ namespace EasyList
                                                     {"duedate",dueDate.ToString() },
                                                     {"priority",priority.ToString() }
                                                     };
+        }
+
+        private static StringBuilder getData(string parameter, string[] args, Dictionary<string, (int, int)> positions)
+        {
+            StringBuilder temp = new();
+            for(int i = positions[parameter].Item1; i <= positions[parameter].Item2; ++i)
+            {
+                temp.Append(args[i]);
+                temp.Append(' ');
+            }
+            return temp;
         }
     }
 }
