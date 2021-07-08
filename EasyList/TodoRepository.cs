@@ -12,8 +12,12 @@ namespace EasyList
         {
             todoList.Add(todo);
         }
-        public  Todo Get(int Id)
+        public  Todo? Get(int Id)
         {
+            if(todoList.Count == 0 || Id > todoList.Count)
+            {
+                return null;
+            }
             return todoList[Id - 1]; 
         }
         public IEnumerable<Todo> GetAllTodo(TodoOrder order = TodoOrder.CreateDate)

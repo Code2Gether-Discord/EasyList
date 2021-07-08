@@ -27,25 +27,50 @@ namespace EasyList
                         var input_Delete = Prompt.Input<string>("Enter TODO ID(s) ");
                         foreach (var item in input_Delete.Split())
                         {
-                            var todoId = Program.todoApp.GetByID(int.Parse(item));
-                            Console.WriteLine($"Deleted: {todoId.Label}");
-                            Program.todoApp.Delete(todoId);
+                            var todoItem = Program.todoApp.GetByID(int.Parse(item));
+                            if(todoItem != null)
+                            {
+                                Console.WriteLine($"Deleted: {todoItem.Label}");
+                                Program.todoApp.Delete(todoItem);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Todo Id: {item} Not Found.");
+                                Console.WriteLine("Try Again.");
+                            }
+                            
                         }
                         break;
 
                     case TODOMENU.View:
                         var input_View = Prompt.Input<int>("Enter TODO ID ");
-                        //try to make prettier
-                        Program.todoApp.Display(Program.todoApp.GetByID(input_View));
+                        var todo = Program.todoApp.GetByID(input_View);
+                        if(todo != null)
+                        {
+                            Program.todoApp.Display(todo);
+                        }
+                        else
+                        {
+                            Console.WriteLine($"Todo Id: {input_View} Not Found.");
+                            Console.WriteLine("Try Again.");
+                        }
                         break;
 
                     case TODOMENU.MarkAsDone:
                         var inputDone = Prompt.Input<string>("Enter TODO ID(s) ");
                         foreach (var item in inputDone.Split())
                         {
-                            var todoId = Program.todoApp.GetByID(int.Parse(item));
-                            Console.WriteLine($"Completed:{todoId.Label}.");
-                            Program.todoApp.MarkAsDone(todoId);
+                            var todoItem = Program.todoApp.GetByID(int.Parse(item));
+                            if(todoItem != null)
+                            {
+                                Console.WriteLine($"Completed:{todoItem.Label}.");
+                                Program.todoApp.MarkAsDone(todoItem);
+                            }
+                            else
+                            {
+                                Console.WriteLine($"Todo Id: {item} Not Found.");
+                                Console.WriteLine("Try Again.");
+                            }
                         }
                         break;
 
