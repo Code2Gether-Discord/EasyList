@@ -17,7 +17,7 @@ namespace EasyList
         {
             _todoRepository.Add(todo);
         }
-        public Todo GetByID(int id)
+        public Todo? GetByID(int id)
         {
             return _todoRepository.Get(id);
         }
