@@ -14,18 +14,18 @@ namespace EasyList
                 switch (action)
                 {
                     case TODOMENU.Add:
-                        var input_ADD = Prompt.Input<string>("Enter TODO ");
-                        var parsed_ADD = ParseAdd.Parse(input_ADD.Split());
-                        var newTodo = new Todo(parsed_ADD["label"],
-                                        parsed_ADD["description"],
-                                        DateTimeOffset.Parse(parsed_ADD["duedate"]),
-                                        Enum.Parse<TodoPriority>(parsed_ADD["priority"]));
+                        var inputAdd = Prompt.Input<string>("Enter TODO ");
+                        var parsedAdd = ParseAdd.Parse(inputAdd.Split());
+                        var newTodo = new Todo(parsedAdd["label"],
+                                        parsedAdd["description"],
+                                        DateTimeOffset.Parse(parsedAdd["duedate"]),
+                                        Enum.Parse<TodoPriority>(parsedAdd["priority"]));
                         Program.todoApp.Add(newTodo);
                         break;
 
                     case TODOMENU.Delete:
-                        var input_Delete = Prompt.Input<string>("Enter TODO ID(s) ");
-                        foreach (var item in input_Delete.Split())
+                        var inputDelete = Prompt.Input<string>("Enter TODO ID(s) ");
+                        foreach (var item in inputDelete.Split())
                         {
                             var todoItem = Program.todoApp.GetByID(int.Parse(item));
                             if(todoItem != null)
@@ -43,15 +43,15 @@ namespace EasyList
                         break;
 
                     case TODOMENU.View:
-                        var input_View = Prompt.Input<int>("Enter TODO ID ");
-                        var todo = Program.todoApp.GetByID(input_View);
+                        var inputView = Prompt.Input<int>("Enter TODO ID ");
+                        var todo = Program.todoApp.GetByID(inputView);
                         if(todo != null)
                         {
                             Program.todoApp.Display(todo);
                         }
                         else
                         {
-                            Console.WriteLine($"Todo Id: {input_View} Not Found.");
+                            Console.WriteLine($"Todo Id: {inputView} Not Found.");
                             Console.WriteLine("Try Again.");
                         }
                         break;
@@ -75,8 +75,8 @@ namespace EasyList
                         break;
 
                     case TODOMENU.ListAll:
-                        var input_List = Prompt.Select<TodoOrder>("Select List Order: ", defaultValue: TodoOrder.CreateDate);
-                        Program.todoApp.DisplayAllTodo(input_List);
+                        var inputList = Prompt.Select<TodoOrder>("Select List Order: ", defaultValue: TodoOrder.CreateDate);
+                        Program.todoApp.DisplayAllTodo(inputList);
                         break;
                 }
 
