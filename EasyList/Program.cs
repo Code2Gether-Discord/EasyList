@@ -1,12 +1,23 @@
 ﻿using System;
-
 namespace EasyList
 {
     class Program
     {
-        static void Main(string[] args)
+        public static ITodoRepository repository;
+        public static TodoApp todoApp;
+        public static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            repository = new TodoRepository();
+            todoApp = new TodoApp(repository);
+
+            if(args.Length > 1)
+            {
+                //directly parse the string command
+            }
+            else
+            {
+                TodoMenu.Run();
+            }
         }
     }
 }
