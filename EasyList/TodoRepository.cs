@@ -52,6 +52,10 @@ namespace EasyList
         {
             todoList.Remove(todo);
         }
+
+        public void Update(Todo todo)
+        {
+        }
     }
 }
 

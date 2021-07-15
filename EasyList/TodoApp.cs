@@ -28,6 +28,7 @@ namespace EasyList
         public void MarkAsDone(Todo todo)
         {
             todo.Status = TodoStatus.Done;
+            _todoRepository.Update(todo);
         }
         public void Display(Todo todo)
         {

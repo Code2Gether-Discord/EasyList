@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiteDB;
+using System;
 using System.Text;
 
 namespace EasyList
@@ -6,12 +7,11 @@ namespace EasyList
     public class Todo
     {
 
-        private static int TodoCount = 0;
+        internal static int TodoCount = 0;
 
         private readonly int _id;
         //Add Task Duration relating with duedate
         // or allow both duration with input and set only the duedate
-
         public int Id => _id;
         public string Label { get; set; }
         public string? Description { get; set; }
@@ -22,6 +22,7 @@ namespace EasyList
         public DateTimeOffset? DueDate { get; set;}
         public TodoStatus Status { get; set; } = TodoStatus.InProgress;
 
+        [BsonCtor]
         public Todo(string Label, string? Description = null, DateTimeOffset? DueDate = null, TodoPriority priority = TodoPriority.Low)
         {
             _id = ++TodoCount;
@@ -30,6 +31,10 @@ namespace EasyList
             this.Priority = priority;
             this.DueDate = DueDate;
             Status = TodoStatus.InProgress;
+        }
+
+        public Todo()
+        {
         }
 
         //public Todo(Todo newTodo)
@@ -41,6 +46,6 @@ namespace EasyList
         //    DueDate = newTodo.DueDate;
         //    Status = newTodo.Status;
         //}
-        
+
     }
 }
