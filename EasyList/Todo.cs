@@ -12,12 +12,13 @@ namespace EasyList
         private readonly int _id;
         //Add Task Duration relating with duedate
         // or allow both duration with input and set only the duedate
+        [BsonId]
         public int Id => _id;
         public string Label { get; set; }
         public string? Description { get; set; }
         public TodoPriority Priority { get; set; } = TodoPriority.Low;
                
-        public DateTimeOffset CreatedDate { get; } = DateTimeOffset.UtcNow;
+        public DateTimeOffset CreatedDate { get; } = DateTimeOffset.Now;
         
         public DateTimeOffset? DueDate { get; set;}
         public TodoStatus Status { get; set; } = TodoStatus.InProgress;

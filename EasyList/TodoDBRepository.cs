@@ -24,7 +24,6 @@ namespace EasyList
             todoCollection = db.GetCollection<Todo>("todoList");
 
             Todo.TodoCount = todoCollection.Count();
-            
         }
         public void Add(Todo todo)
         {
