@@ -49,10 +49,10 @@ namespace EasyList
                 //processing for Label
                 positions.Add("add", (startIndex,endIndex - 1));
             }
-            string label = getData("add", args, positions).ToString().Trim();
-            string? description = positions.ContainsKey("-d") ? getData("-d", args, positions).ToString() : string.Empty;
-            DateTimeOffset dueDate = positions.ContainsKey("-t") ? DateTimeOffset.Parse(getData("-t", args, positions).ToString()) : DateTimeOffset.MaxValue;
-            TodoPriority priority = positions.ContainsKey("-p") ? Enum.Parse<TodoPriority>(getData("-p", args, positions).ToString().ToUpper()) : TodoPriority.Low;
+            string label = GetData("add", args, positions).ToString().Trim();
+            string? description = positions.ContainsKey("-d") ? GetData("-d", args, positions).ToString() : string.Empty;
+            DateTimeOffset dueDate = positions.ContainsKey("-t") ? DateTimeOffset.Parse(GetData("-t", args, positions).ToString()) : DateTimeOffset.MaxValue;
+            TodoPriority priority = positions.ContainsKey("-p") ? Enum.Parse<TodoPriority>(GetData("-p", args, positions).ToString().ToUpper()) : TodoPriority.Low;
 
             return new Dictionary<string, string> {
                                                     {"label" ,label },
@@ -62,7 +62,7 @@ namespace EasyList
                                                     };
         }
 
-        private static StringBuilder getData(string parameter, string[] args, Dictionary<string, (int, int)> positions)
+        private static StringBuilder GetData(string parameter, string[] args, Dictionary<string, (int, int)> positions)
         {
             StringBuilder temp = new();
             for(int i = positions[parameter].Item1; i <= positions[parameter].Item2; ++i)
