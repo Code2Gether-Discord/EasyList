@@ -13,7 +13,7 @@ namespace EasyList
         //Add Task Duration relating with duedate
         // or allow both duration with input and set only the duedate
         [BsonId]
-        public int Id { get; set; }
+        public int Id { get; init; }
         public string Label { get; set; }
         public string? Description { get; set; }
         public TodoPriority Priority { get; set; } = TodoPriority.Low;
