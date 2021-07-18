@@ -7,7 +7,7 @@ namespace EasyList
         public static TodoApp todoApp;
         public static void Main(string[] args)
         {
-            repository = new TodoDBRepository();
+            repository = new TodoLiteDbRepository();
             todoApp = new TodoApp(repository);
 
             if(args.Length > 1)

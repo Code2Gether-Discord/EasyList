@@ -12,7 +12,6 @@ namespace EasyList
         {
             _todoRepository = todoCollection;
         }
-
         public void Add(Todo todo)
         {
             _todoRepository.Add(todo);
@@ -40,7 +39,6 @@ namespace EasyList
             if (todo.DueDate != null)
                 Console.WriteLine($"DueDate: {todo.DueDate}");
         }
-
         public void DisplayAllTodo(TodoOrder todoOrder)
         {
             ConsoleTable
