@@ -4,11 +4,11 @@ namespace EasyList
     class Program
     {
         public static ITodoRepository repository;
-        public static TodoApp todoApp;
+        public static TodoService todoApp;
         public static void Main(string[] args)
         {
             repository = new TodoLiteDbRepository();
-            todoApp = new TodoApp(repository);
+            todoApp = new TodoService(repository);
 
             if(args.Length > 1)
             {

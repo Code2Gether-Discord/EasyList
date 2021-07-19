@@ -6,8 +6,9 @@ namespace EasyList
 {
     public class Todo
     {
-
-        internal static int TodoCount = 0;
+        //The litedb itself handles assigning unique Ids to Todos,
+        //Hence no need to keep count.
+        //internal static int TodoCount = 0;
 
         //private readonly int _id;
         //Add Task Duration relating with duedate

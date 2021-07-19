@@ -5,12 +5,12 @@ using ConsoleTables;
 
 namespace EasyList
 {
-    class TodoApp
+    class TodoService
     {
         private readonly ITodoRepository _todoRepository;
-        public TodoApp(ITodoRepository todoCollection)
+        public TodoService(ITodoRepository todoRepository)
         {
-            _todoRepository = todoCollection;
+            _todoRepository = todoRepository;
         }
         public void Add(Todo todo)
         {
@@ -18,7 +18,7 @@ namespace EasyList
         }
         public Todo? GetByID(int id)
         {
-            return _todoRepository.Get(id);
+            return _todoRepository.GetTodo(id);
         }
         public void Delete(Todo todo)
         {

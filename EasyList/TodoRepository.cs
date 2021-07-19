@@ -12,7 +12,7 @@ namespace EasyList
         {
             todoList.Add(todo);
         }
-        public  Todo? Get(int Id)
+        public  Todo? GetTodo(int Id)
         {
             if(todoList.Count == 0 || Id > todoList.Count)
             {

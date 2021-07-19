@@ -11,7 +11,7 @@ namespace EasyList
     class TodoLiteDbRepository : ITodoRepository
     {
         private readonly LiteDatabase _liteDB;
-        private readonly ILiteCollection<Todo> todoCollection;
+        private readonly ILiteCollection<Todo> _todoCollection;
         public TodoLiteDbRepository()
         {
             BsonMapper.Global.RegisterType<DateTimeOffset>(
@@ -20,49 +20,37 @@ namespace EasyList
 
             var connectionString = System.Configuration.ConfigurationManager.ConnectionStrings["LiteDB"].ConnectionString;
             _liteDB = new LiteDatabase(connectionString);
-            todoCollection = _liteDB.GetCollection<Todo>("todoList");
+            _todoCollection = _liteDB.GetCollection<Todo>(nameof(Todo));
         }
         public void Add(Todo todo)
         {
-            todoCollection.Insert(todo);
+            _todoCollection.Insert(todo);
         }
-        public Todo? Get(int Id)
+        public Todo? GetTodo(int Id)
         {
-            return todoCollection.FindById(Id);
+            return _todoCollection.FindById(Id);
         }
         public IEnumerable<Todo> GetAllTodo(TodoOrder orderOfList = TodoOrder.CreateDate)
         {
-            ILiteQueryable<Todo> orderedList;
-            switch (orderOfList)
+            var todoQuery = _todoCollection.Query();
+            todoQuery = orderOfList switch
             {
-                case TodoOrder.DueDate:
-                    {
-                        orderedList = todoCollection.Query().Where(_todo => _todo.Status == TodoStatus.InProgress)
-                                              .OrderByDescending(_todo => _todo.DueDate);
-                        break;
-                    }
-                case TodoOrder.Priority:
-                    {
-                        orderedList = todoCollection.Query().Where(_todo => _todo.Status == TodoStatus.InProgress)
-                                              .OrderByDescending(_todo => _todo.Priority);
-                        break;
-                    }
-                default:
-                    {
-                        orderedList = todoCollection.Query().Where(_todo => _todo.Status == TodoStatus.InProgress)
-                                              .OrderByDescending(_todo => _todo.CreatedDate);
-                        break;
-                    }
-            }
-            return orderedList.ToEnumerable();
+                TodoOrder.DueDate => todoQuery.Where(todo => todo.Status == TodoStatus.InProgress)
+                                                  .OrderByDescending(_todo => _todo.DueDate),
+                TodoOrder.Priority => todoQuery.Where(todo => todo.Status == TodoStatus.InProgress)
+                                                  .OrderByDescending(_todo => _todo.Priority),
+                _ => todoQuery.Where(todo => todo.Status == TodoStatus.InProgress)
+                                                  .OrderByDescending(_todo => _todo.CreatedDate)
+            };
+            return todoQuery.ToEnumerable();
         }
         public void Update(Todo todo)
         {
-            todoCollection.Update(todo);
+            _todoCollection.Update(todo);
         }
         public void Delete(Todo todo)
         {
-            todoCollection.Delete(todo.Id);
+            _todoCollection.Delete(todo.Id);
         }
     }
 }
