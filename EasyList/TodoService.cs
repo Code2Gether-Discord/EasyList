@@ -5,7 +5,7 @@ using ConsoleTables;
 
 namespace EasyList
 {
-    public class TodoService
+    internal class TodoService
     {
         private readonly ITodoRepository _todoRepository;
         public TodoService(ITodoRepository todoRepository)
