@@ -7,8 +7,8 @@ namespace EasyList
 {
     internal class TodoService
     {
-        private readonly ITodoRepository _todoRepository;
-        public TodoService(ITodoRepository todoRepository)
+        private readonly ITodoLiteDBRepository _todoRepository;
+        public TodoService(ITodoLiteDBRepository todoRepository)
         {
             _todoRepository = todoRepository;
         }

@@ -8,7 +8,7 @@ using LiteDB;
 
 namespace EasyList
 {
-    class TodoLiteDbRepository : ITodoRepository
+    class TodoLiteDbRepository : ITodoLiteDBRepository
     {
         private readonly LiteDatabase _liteDB;
         private readonly ILiteCollection<Todo> _todoCollection;
