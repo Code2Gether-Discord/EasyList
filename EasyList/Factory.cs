@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyList
 {
-    class Factory
+    internal static class Factory
     {
         public static ITodoLiteDBRepository CreateDBRepository()
         {

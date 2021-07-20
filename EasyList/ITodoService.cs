@@ -1,12 +1,12 @@
 ﻿namespace EasyList
 {
-    interface ITodoService
+    internal interface ITodoService
     {
-        public void AddTodo(Todo todo);
-        public void DeleteTodo(Todo todo);
-        public void DisplayTodo(Todo todo);
-        public void DisplayAllTodo(TodoOrder todoOrder);
-        public Todo? GetTodoByID(int id);
-        public void MarkTodoAsDone(Todo todo);
+        void AddTodo(Todo todo);
+        void DeleteTodo(Todo todo);
+        void DisplayTodo(Todo todo);
+        void DisplayAllTodo(TodoOrder todoOrder);
+        Todo? GetTodoByID(int id);
+        void MarkTodoAsDone(Todo todo);
     }
 }
