@@ -44,7 +44,7 @@ namespace EasyList
 
         public static void Run()
         {
-            ITodoService _todoService = new TodoServiceDB();
+            ITodoService _todoService = Factory.CreateTodoServiceDB();
             while(true)
             {
                 var action = Prompt.Select<TODOMENU>("Welcome to EasyList!");

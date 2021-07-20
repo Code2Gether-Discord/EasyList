@@ -16,5 +16,13 @@ namespace EasyList
         {
             return new TodoRepository();
         }
+        public static ITodoService CreateTodoServiceDB()
+        {
+            return new TodoServiceDB();
+        }
+        public static ITodoService CreateTodoServiceInMemory()
+        {
+            return new TodoServiceInMemory();
+        }
     }
 }
