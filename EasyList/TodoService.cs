@@ -1,50 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using ConsoleTables;
-
-namespace EasyList
+﻿namespace EasyList
 {
-    internal class TodoService
+    internal abstract class TodoService
     {
-        private readonly ITodoLiteDBRepository _todoRepository;
-        public TodoService(ITodoLiteDBRepository todoRepository)
-        {
-            _todoRepository = todoRepository;
-        }
-        public void Add(Todo todo)
-        {
-            _todoRepository.Add(todo);
-        }
-        public Todo? GetByID(int id)
-        {
-            return _todoRepository.GetTodo(id);
-        }
-        public void Delete(Todo todo)
-        {
-            _todoRepository.Delete(todo);
-        }
-        public void MarkAsDone(Todo todo)
-        {
-            todo.Status = TodoStatus.Done;
-            _todoRepository.Update(todo);
-        }
-        public void Display(Todo todo)
-        {
-            Console.WriteLine($"Id: {todo.Id}");
-            Console.WriteLine($"Label: {todo.Label}");
-            if (!string.IsNullOrWhiteSpace(todo.Description))
-                Console.WriteLine($"Description: {todo.Description}");
-            Console.WriteLine($"Priority: {todo.Priority}");
-            if (todo.DueDate != null)
-                Console.WriteLine($"DueDate: {todo.DueDate}");
-        }
-        public void DisplayAllTodo(TodoOrder todoOrder)
-        {
-            ConsoleTable
-            .From<Todo>(_todoRepository.GetAllTodo(todoOrder))
-            .Configure(o => o.NumberAlignment = Alignment.Right)
-            .Write(Format.Alternative);
-        }
+        public abstract ITodoRepository CreateRepository();
+        public abstract void Add(Todo todo);
+        public abstract void Delete(Todo todo);
+        public abstract void Display(Todo todo);
+        public abstract void DisplayAllTodo(TodoOrder todoOrder);
+        public abstract Todo? GetByID(int id);
+        public abstract void MarkAsDone(Todo todo);
     }
 }

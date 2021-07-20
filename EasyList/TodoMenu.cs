@@ -44,7 +44,7 @@ namespace EasyList
 
         public static void Run()
         {
-
+            TodoService _todoService = new TodoServiceDB();
             while(true)
             {
                 var action = Prompt.Select<TODOMENU>("Welcome to EasyList!");
@@ -61,7 +61,7 @@ namespace EasyList
                                     parsedAdd["description"],
                                     DateTimeOffset.Parse(parsedAdd["duedate"]),
                                     Enum.Parse<TodoPriority>(parsedAdd["priority"]));
-                            Program.todoApp.Add(newTodo);
+                            _todoService.Add(newTodo);
                         }
                         
                         break;
@@ -70,11 +70,11 @@ namespace EasyList
                         var inputDelete = Prompt.Input<string>("Enter TODO ID(s) ");
                         foreach (var item in inputDelete.Split())
                         {
-                            var todoItem = Program.todoApp.GetByID(int.Parse(item));
+                            var todoItem = _todoService.GetByID(int.Parse(item));
                             if(todoItem != null)
                             {
                                 Console.WriteLine($"Deleted: {todoItem.Label}");
-                                Program.todoApp.Delete(todoItem);
+                                _todoService.Delete(todoItem);
                             }
                             else
                             {
@@ -87,10 +87,10 @@ namespace EasyList
 
                     case TODOMENU.View:
                         var inputView = Prompt.Input<int>("Enter TODO ID ");
-                        var todo = Program.todoApp.GetByID(inputView);
+                        var todo = _todoService.GetByID(inputView);
                         if(todo != null)
                         {
-                            Program.todoApp.Display(todo);
+                            _todoService.Display(todo);
                         }
                         else
                         {
@@ -102,11 +102,11 @@ namespace EasyList
                         var inputDone = Prompt.Input<string>("Enter TODO ID(s) ");
                         foreach (var item in inputDone.Split())
                         {
-                            var todoItem = Program.todoApp.GetByID(int.Parse(item));
+                            var todoItem = _todoService.GetByID(int.Parse(item));
                             if(todoItem != null)
                             {
                                 Console.WriteLine($"Completed:{todoItem.Label}.");
-                                Program.todoApp.MarkAsDone(todoItem);
+                                _todoService.MarkAsDone(todoItem);
                             }
                             else
                             {
@@ -118,7 +118,7 @@ namespace EasyList
 
                     case TODOMENU.ListAll:
                         var inputList = Prompt.Select<TodoOrder>("Select List Order: ", defaultValue: TodoOrder.CreateDate);
-                        Program.todoApp.DisplayAllTodo(inputList);
+                        _todoService.DisplayAllTodo(inputList);
                         break;
                 }
 
