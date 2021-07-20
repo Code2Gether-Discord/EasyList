@@ -5,9 +5,9 @@ namespace EasyList
 {
     internal interface ITodoRepository
     {
-        void Add(Todo todo);
+        void AddTodo(Todo todo);
         Todo? GetTodo(int Id);
         IEnumerable<Todo> GetAllTodo(TodoOrder orderOfList = TodoOrder.DueDate);
-        void Delete(Todo todo);
+        void DeleteTodo(Todo todo);
     }
 }

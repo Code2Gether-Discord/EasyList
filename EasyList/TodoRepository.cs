@@ -8,7 +8,7 @@ namespace EasyList
     {
 		private static readonly List<Todo> todoList = new();
         
-		public void Add(Todo todo)
+		public void AddTodo(Todo todo)
         {
             todoList.Add(todo);
         }
@@ -48,13 +48,9 @@ namespace EasyList
             }
             return orderedList;
         }
-        public void Delete(Todo todo)
+        public void DeleteTodo(Todo todo)
         {
             todoList.Remove(todo);
-        }
-
-        public void Update(Todo todo)
-        {
         }
     }
 }

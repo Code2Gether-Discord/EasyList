@@ -8,6 +8,6 @@ namespace EasyList
 {
     interface ITodoLiteDBRepository : ITodoRepository
     {
-        void Update(Todo todo);
+        void UpdateTodo(Todo todo);
     }
 }

@@ -22,7 +22,7 @@ namespace EasyList
             _liteDB = new LiteDatabase(connectionString);
             _todoCollection = _liteDB.GetCollection<Todo>(nameof(Todo));
         }
-        public void Add(Todo todo)
+        public void AddTodo(Todo todo)
         {
             _todoCollection.Insert(todo);
         }
@@ -44,11 +44,11 @@ namespace EasyList
             };
             return todoQuery.ToEnumerable();
         }
-        public void Update(Todo todo)
+        public void UpdateTodo(Todo todo)
         {
             _todoCollection.Update(todo);
         }
-        public void Delete(Todo todo)
+        public void DeleteTodo(Todo todo)
         {
             _todoCollection.Delete(todo.Id);
         }
