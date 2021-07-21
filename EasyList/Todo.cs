@@ -23,14 +23,14 @@ namespace EasyList
         public TodoStatus Status { get; set; } = TodoStatus.InProgress;
 
         [BsonCtor]
-        public Todo(string Label, string? Description = null, DateTimeOffset? DueDate = null, TodoPriority priority = TodoPriority.Low)
+        public Todo(string label, string? description = null, DateTimeOffset? dueDate = null, TodoPriority priority = TodoPriority.Low)
         {
             //The litedb itself handles assigning unique Ids to Todos.
             //Id = ++TodoCount;
-            this.Label = Label;
-            this.Description = Description;
+            this.Label = label;
+            this.Description = description;
             this.Priority = priority;
-            this.DueDate = DueDate;
+            this.DueDate = dueDate;
             Status = TodoStatus.InProgress;
         }
         public Todo()
