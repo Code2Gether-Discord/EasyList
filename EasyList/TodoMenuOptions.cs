@@ -1,10 +1,13 @@
 ﻿using System;
 
-public enum TODOMENU
+namespace EasyList
 {
-    Add,
-    Delete,
-    View,
-    MarkAsDone,
-    ListAll
+    public enum TODOMENU
+    {
+        Add,
+        Delete,
+        View,
+        MarkAsDone,
+        ListAll
+    }
 }
