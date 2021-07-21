@@ -34,10 +34,11 @@ namespace EasyList
             Status = TodoStatus.InProgress;
         }
 
+#nullable disable
         public Todo()
         {
         }
-
+#nullable enable
         //public Todo(Todo newTodo)
         //{
         //    id = ++TodoCount;
