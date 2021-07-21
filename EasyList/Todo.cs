@@ -1,42 +1,41 @@
-﻿using LiteDB;
-using System;
+﻿using System;
 using System.Text;
 
 namespace EasyList
 {
     public class Todo
     {
-        //The litedb itself handles assigning unique Ids to Todos,
-        //Hence no need to keep count.
-        //internal static int TodoCount = 0;
 
-        //private readonly int _id;
+        private static int TodoCount = 0;
+
+        private readonly int _id;
         //Add Task Duration relating with duedate
         // or allow both duration with input and set only the duedate
-        [BsonId]
-        public int Id { get; init; }
+
+        public int Id => _id;
         public string Label { get; set; }
         public string? Description { get; set; }
         public TodoPriority Priority { get; set; } = TodoPriority.Low;
-        public DateTimeOffset CreatedDate { get; } = DateTimeOffset.Now;
+               
+        public DateTimeOffset CreatedDate { get; } = DateTimeOffset.UtcNow;
+        
         public DateTimeOffset? DueDate { get; set;}
         public TodoStatus Status { get; set; } = TodoStatus.InProgress;
 
-        [BsonCtor]
-        public Todo(string label, string? description = null, DateTimeOffset? dueDate = null, TodoPriority priority = TodoPriority.Low)
+        public Todo(string Label, string? Description = null, DateTimeOffset? DueDate = null, TodoPriority priority = TodoPriority.Low)
         {
-            //The litedb itself handles assigning unique Ids to Todos.
-            //Id = ++TodoCount;
-            this.Label = label;
-            this.Description = description;
+            _id = ++TodoCount;
+            this.Label = Label;
+            this.Description = Description;
             this.Priority = priority;
-            this.DueDate = dueDate;
+            this.DueDate = DueDate;
             Status = TodoStatus.InProgress;
         }
 
         public Todo()
         {
         }
+
 
         //public Todo(Todo newTodo)
         //{
@@ -47,6 +46,6 @@ namespace EasyList
         //    DueDate = newTodo.DueDate;
         //    Status = newTodo.Status;
         //}
-
+        
     }
 }
