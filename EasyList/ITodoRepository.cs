@@ -3,11 +3,11 @@ using System.Collections.Generic;
 
 namespace EasyList
 {
-    internal interface ITodoRepository
+    interface ITodoRepository
     {
-        void AddTodo(Todo todo);
-        Todo? GetTodo(int Id);
+        void Add(Todo todo);
+        Todo? Get(int Id);
         IEnumerable<Todo> GetAllTodo(TodoOrder orderOfList = TodoOrder.DueDate);
-        void DeleteTodo(Todo todo);
+        void Delete(Todo todo);
     }
 }
