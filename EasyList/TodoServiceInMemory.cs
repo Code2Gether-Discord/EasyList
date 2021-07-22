@@ -5,31 +5,30 @@ using ConsoleTables;
 
 namespace EasyList
 {
-    class TodoApp
+    internal class TodoServiceInMemory : ITodoService
     {
         private readonly ITodoRepository _todoRepository;
-        public TodoApp(ITodoRepository todoCollection)
+        public TodoServiceInMemory()
         {
-            _todoRepository = todoCollection;
+            _todoRepository = Factory.CreateInMemoryRepository();
         }
-
-        public void Add(Todo todo)
+        public  void AddTodo(Todo todo)
         {
-            _todoRepository.Add(todo);
+            _todoRepository.AddTodo(todo);
         }
-        public Todo? GetByID(int id)
+        public  Todo? GetTodoByID(int id)
         {
-            return _todoRepository.Get(id);
+            return _todoRepository.GetTodo(id);
         }
-        public void Delete(Todo todo)
+        public  void DeleteTodo(Todo todo)
         {
-            _todoRepository.Delete(todo);
+            _todoRepository.DeleteTodo(todo);
         }
-        public void MarkAsDone(Todo todo)
+        public  void MarkTodoAsDone(Todo todo)
         {
             todo.Status = TodoStatus.Done;
         }
-        public void Display(Todo todo)
+        public  void DisplayTodo(Todo todo)
         {
             Console.WriteLine($"Id: {todo.Id}");
             Console.WriteLine($"Label: {todo.Label}");
@@ -39,13 +38,14 @@ namespace EasyList
             if (todo.DueDate != null)
                 Console.WriteLine($"DueDate: {todo.DueDate}");
         }
-
-        public void DisplayAllTodo(TodoOrder todoOrder)
+        public  void DisplayAllTodo(TodoOrder todoOrder)
         {
             ConsoleTable
             .From<Todo>(_todoRepository.GetAllTodo(todoOrder))
             .Configure(o => o.NumberAlignment = Alignment.Right)
             .Write(Format.Alternative);
         }
+
+        
     }
 }
