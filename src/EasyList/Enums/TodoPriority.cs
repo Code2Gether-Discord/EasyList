@@ -1,4 +1,4 @@
-﻿namespace EasyList
+﻿namespace EasyList.Enums
 {
     public enum TodoPriority
     {

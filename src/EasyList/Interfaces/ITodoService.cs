@@ -1,4 +1,6 @@
-﻿namespace EasyList
+﻿using EasyList.Enums;
+
+namespace EasyList.Interfaces
 {
     internal interface ITodoService
     {

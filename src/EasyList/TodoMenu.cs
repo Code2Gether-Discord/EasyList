@@ -1,4 +1,7 @@
-﻿using Sharprompt;
+﻿using EasyList.Enums;
+using EasyList.Factories;
+using EasyList.Interfaces;
+using Sharprompt;
 using System;
 using System.Collections.Generic;
 using System.Linq;

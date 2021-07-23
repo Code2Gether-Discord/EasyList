@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace EasyList
+namespace EasyList.Enums
 {
     public enum TodoStatus 
     {

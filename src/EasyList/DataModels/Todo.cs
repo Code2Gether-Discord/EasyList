@@ -1,8 +1,9 @@
-﻿using LiteDB;
+﻿using EasyList.Enums;
+using LiteDB;
 using System;
 using System.Text;
 
-namespace EasyList
+namespace EasyList.DataModels
 {
     public class Todo
     {

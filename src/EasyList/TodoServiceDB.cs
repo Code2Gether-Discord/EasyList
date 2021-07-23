@@ -2,33 +2,39 @@
 using System.Collections.Generic;
 using System.Linq;
 using ConsoleTables;
+using EasyList.DataModels;
+using EasyList.Enums;
+using EasyList.Factories;
+using EasyList.Interfaces;
 
 namespace EasyList
 {
-    internal class TodoServiceInMemory : ITodoService
+    internal class TodoServiceDB : ITodoService
     {
-        private readonly ITodoRepository _todoRepository;
-        public TodoServiceInMemory()
+        private readonly ITodoLiteDBRepository _todoRepository;
+
+        public TodoServiceDB()
         {
-            _todoRepository = Factory.CreateInMemoryRepository();
+            _todoRepository = Factory.CreateDBRepository();
         }
-        public  void AddTodo(Todo todo)
+        public void AddTodo(Todo todo)
         {
             _todoRepository.AddTodo(todo);
         }
-        public  Todo? GetTodoByID(int id)
+        public Todo? GetTodoByID(int id)
         {
             return _todoRepository.GetTodo(id);
         }
-        public  void DeleteTodo(Todo todo)
+        public void DeleteTodo(Todo todo)
         {
             _todoRepository.DeleteTodo(todo);
         }
-        public  void MarkTodoAsDone(Todo todo)
+        public void MarkTodoAsDone(Todo todo)
         {
             todo.Status = TodoStatus.Done;
+            _todoRepository.UpdateTodo(todo);
         }
-        public  void DisplayTodo(Todo todo)
+        public void DisplayTodo(Todo todo)
         {
             Console.WriteLine($"Id: {todo.Id}");
             Console.WriteLine($"Label: {todo.Label}");
@@ -38,7 +44,7 @@ namespace EasyList
             if (todo.DueDate != null)
                 Console.WriteLine($"DueDate: {todo.DueDate}");
         }
-        public  void DisplayAllTodo(TodoOrder todoOrder)
+        public void DisplayAllTodo(TodoOrder todoOrder)
         {
             ConsoleTable
             .From<Todo>(_todoRepository.GetAllTodo(todoOrder))

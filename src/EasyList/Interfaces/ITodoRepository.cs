@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace EasyList
+namespace EasyList.Interfaces
 {
     internal interface ITodoRepository
     {

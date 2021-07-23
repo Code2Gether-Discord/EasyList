@@ -4,6 +4,9 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using EasyList.DataModels;
+using EasyList.Enums;
+using EasyList.Interfaces;
 using LiteDB;
 
 namespace EasyList
