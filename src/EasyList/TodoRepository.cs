@@ -1,13 +1,12 @@
 ﻿using EasyList.DataModels;
 using EasyList.Enums;
 using EasyList.Interfaces;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace EasyList
 {
-	class TodoRepository : ITodoRepository
+    class TodoRepository : ITodoRepository
     {
 		private static readonly List<Todo> todoList = new();
         

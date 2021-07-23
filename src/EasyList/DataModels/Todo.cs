@@ -1,7 +1,6 @@
 ﻿using EasyList.Enums;
 using LiteDB;
 using System;
-using System.Text;
 
 namespace EasyList.DataModels
 {
