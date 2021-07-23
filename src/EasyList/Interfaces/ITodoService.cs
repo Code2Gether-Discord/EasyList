@@ -1,4 +1,5 @@
-﻿using EasyList.Enums;
+﻿using EasyList.DataModels;
+using EasyList.Enums;
 
 namespace EasyList.Interfaces
 {

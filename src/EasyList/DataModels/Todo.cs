@@ -2,6 +2,7 @@
 using LiteDB;
 using System;
 using System.Text;
+using EasyList.Interfaces;
 
 namespace EasyList.DataModels
 {
