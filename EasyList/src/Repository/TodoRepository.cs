@@ -1,24 +1,24 @@
-﻿using System;
+﻿using EasyList.src.Interfaces;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EasyList
+namespace EasyList.src.Repository
 {
-	class TodoRepository : ITodoRepository
+    class TodoRepository : ITodoRepository
     {
-		private static readonly List<Todo> todoList = new();
-        
-		public void AddTodo(Todo todo)
+        private static readonly List<Todo> todoList = new();
+
+        public void AddTodo(Todo todo)
         {
             todoList.Add(todo);
         }
-        public  Todo? GetTodo(int Id)
+        public Todo? GetTodo(int Id)
         {
-            if(todoList.Count == 0 || Id > todoList.Count)
+            if (todoList.Count == 0 || Id > todoList.Count)
             {
                 return null;
             }
-            return todoList[Id - 1]; 
+            return todoList[Id - 1];
         }
         public IEnumerable<Todo> GetAllTodo(TodoOrder order = TodoOrder.CreateDate)
         {

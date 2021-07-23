@@ -14,4 +14,9 @@
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="src\Models\" />
+    <Folder Include="tests\" />
+  </ItemGroup>
+
 </Project>

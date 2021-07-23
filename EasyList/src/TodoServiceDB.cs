@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using ConsoleTables;
+using EasyList.src.Interfaces;
 
-namespace EasyList
+namespace EasyList.src
 {
     internal class TodoServiceDB : ITodoService
     {
@@ -43,11 +42,11 @@ namespace EasyList
         public void DisplayAllTodo(TodoOrder todoOrder)
         {
             ConsoleTable
-            .From<Todo>(_todoRepository.GetAllTodo(todoOrder))
+            .From(_todoRepository.GetAllTodo(todoOrder))
             .Configure(o => o.NumberAlignment = Alignment.Right)
             .Write(Format.Alternative);
         }
 
-        
+
     }
 }

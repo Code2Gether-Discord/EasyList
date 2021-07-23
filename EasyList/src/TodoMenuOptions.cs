@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace EasyList
+﻿namespace EasyList.src
 {
     public enum TODOMENU
     {

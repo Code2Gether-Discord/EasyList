@@ -1,4 +1,4 @@
-﻿namespace EasyList
+﻿namespace EasyList.src.Interfaces
 {
     internal interface ITodoService
     {

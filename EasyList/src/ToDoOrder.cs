@@ -1,8 +1,6 @@
-﻿using System;
-
-namespace EasyList
+﻿namespace EasyList.src
 {
-    public enum TodoOrder 
+    public enum TodoOrder
     {
         CreateDate,
         DueDate,

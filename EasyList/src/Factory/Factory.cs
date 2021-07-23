@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using EasyList.src.Interfaces;
 
-namespace EasyList
+namespace EasyList.src.Factory
 {
     internal static class Factory
     {

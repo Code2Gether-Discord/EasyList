@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using EasyList.src.Interfaces;
 using LiteDB;
 
-namespace EasyList
+namespace EasyList.src.Repository
 {
     class TodoLiteDbRepository : ITodoLiteDBRepository
     {
@@ -14,7 +12,7 @@ namespace EasyList
         private readonly ILiteCollection<Todo> _todoCollection;
         public TodoLiteDbRepository()
         {
-            BsonMapper.Global.RegisterType<DateTimeOffset>(
+            BsonMapper.Global.RegisterType(
                 serialize: value => value.ToString("o", CultureInfo.InvariantCulture),
                 deserialize: bson => DateTimeOffset.ParseExact(bson, "o", CultureInfo.InvariantCulture, DateTimeStyles.RoundtripKind));
 

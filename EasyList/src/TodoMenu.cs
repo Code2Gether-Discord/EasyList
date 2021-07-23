@@ -1,9 +1,10 @@
-﻿using Sharprompt;
+﻿using EasyList.src.Interfaces;
+using Sharprompt;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace EasyList
+namespace EasyList.src
 {
     public class TodoMenu
     {
@@ -15,25 +16,26 @@ namespace EasyList
             }
 
             if (DateTimeOffset.Parse(input["duedate"]) < DateTime.UtcNow)
-			{
+            {
                 yield return "Due date cannot be in the past";
-			}
+            }
         }
 
         private static bool Validate(TODOMENU command, Dictionary<string, string> input)
-		{
-            var errors = command switch {
+        {
+            var errors = command switch
+            {
                 TODOMENU.Add => ValidateAdd(input),
                 // register the rest of the options that need to be validated here
                 _ => throw new InvalidOperationException($"No validator exists for {command}"),
             };
-            
+
             if (errors.Any())
             {
                 Console.WriteLine("The input has the following errors:");
                 foreach (var error in errors)
                 {
-                    Console.WriteLine("\t"+error);
+                    Console.WriteLine("\t" + error);
                 }
 
                 return false;
@@ -45,7 +47,7 @@ namespace EasyList
         public static void Run()
         {
             ITodoService _todoService = Factory.CreateTodoServiceDB();
-            while(true)
+            while (true)
             {
                 var action = Prompt.Select<TODOMENU>("Welcome to EasyList!");
                 //Refactor this such that adding new should not modify this input layer
@@ -56,14 +58,14 @@ namespace EasyList
                         var parsedAdd = ParseAdd.Parse(inputAdd?.Split() ?? Array.Empty<string>());
 
                         if (Validate(action, parsedAdd))
-						{
+                        {
                             var newTodo = new Todo(parsedAdd["label"],
                                     parsedAdd["description"],
                                     DateTimeOffset.Parse(parsedAdd["duedate"]),
                                     Enum.Parse<TodoPriority>(parsedAdd["priority"]));
                             _todoService.AddTodo(newTodo);
                         }
-                        
+
                         break;
 
                     case TODOMENU.Delete:
@@ -71,7 +73,7 @@ namespace EasyList
                         foreach (var item in inputDelete.Split())
                         {
                             var todoItem = _todoService.GetTodoByID(int.Parse(item));
-                            if(todoItem != null)
+                            if (todoItem != null)
                             {
                                 Console.WriteLine($"Deleted: {todoItem.Label}");
                                 _todoService.DeleteTodo(todoItem);
@@ -81,14 +83,14 @@ namespace EasyList
                                 Console.WriteLine($"Todo Id: {item} Not Found.");
                                 Console.WriteLine("Try Again.");
                             }
-                            
+
                         }
                         break;
 
                     case TODOMENU.View:
                         var inputView = Prompt.Input<int>("Enter TODO ID ");
                         var todo = _todoService.GetTodoByID(inputView);
-                        if(todo != null)
+                        if (todo != null)
                         {
                             _todoService.DisplayTodo(todo);
                         }
@@ -103,7 +105,7 @@ namespace EasyList
                         foreach (var item in inputDone.Split())
                         {
                             var todoItem = _todoService.GetTodoByID(int.Parse(item));
-                            if(todoItem != null)
+                            if (todoItem != null)
                             {
                                 Console.WriteLine($"Completed:{todoItem.Label}.");
                                 _todoService.MarkTodoAsDone(todoItem);

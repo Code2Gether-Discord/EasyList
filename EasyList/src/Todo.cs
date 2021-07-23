@@ -1,8 +1,7 @@
 ﻿using LiteDB;
 using System;
-using System.Text;
 
-namespace EasyList
+namespace EasyList.src
 {
     public class Todo
     {
@@ -19,17 +18,17 @@ namespace EasyList
         public string? Description { get; set; }
         public TodoPriority Priority { get; set; } = TodoPriority.Low;
         public DateTimeOffset CreatedDate { get; } = DateTimeOffset.Now;
-        public DateTimeOffset? DueDate { get; set;}
+        public DateTimeOffset? DueDate { get; set; }
         public TodoStatus Status { get; set; } = TodoStatus.InProgress;
         [BsonCtor]
         public Todo(string label, string? description = null, DateTimeOffset? dueDate = null, TodoPriority priority = TodoPriority.Low)
         {
             //The litedb itself handles assigning unique Ids to Todos.
             //Id = ++TodoCount;
-            this.Label = label;
-            this.Description = description;
-            this.Priority = priority;
-            this.DueDate = dueDate;
+            Label = label;
+            Description = description;
+            Priority = priority;
+            DueDate = dueDate;
             Status = TodoStatus.InProgress;
         }
 #nullable disable
