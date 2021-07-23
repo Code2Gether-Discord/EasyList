@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using ConsoleTables;
 using EasyList.DataModels;
 using EasyList.Enums;

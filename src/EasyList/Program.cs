@@ -1,5 +1,4 @@
-﻿using System;
-namespace EasyList
+﻿namespace EasyList
 {
     class Program
     {

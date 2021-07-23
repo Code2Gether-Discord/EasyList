@@ -1,6 +1,5 @@
 ﻿using EasyList.DataModels;
 using EasyList.Enums;
-using System;
 using System.Collections.Generic;
 
 namespace EasyList.Interfaces
