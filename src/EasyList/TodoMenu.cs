@@ -129,6 +129,10 @@ namespace EasyList
                         var inputList = Prompt.Select<TodoOrder>("Select List Order: ", defaultValue: TodoOrder.CreateDate);
                         _todoService.DisplayAllTodo(inputList);
                         break;
+                    case TODOMENU.Quit:
+                        Console.WriteLine("Exiting...");
+                        Environment.Exit(Environment.ExitCode = 0);
+                        break;
                 }
 
                 Console.ReadLine();
