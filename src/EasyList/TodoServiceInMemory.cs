@@ -45,7 +45,7 @@ namespace EasyList
             ConsoleTable
             .From<Todo>(_todoRepository.GetAllTodo(todoOrder))
             .Configure(o => o.NumberAlignment = Alignment.Right)
-            .Write(Format.Alternative);
+            .Write(Format.MarkDown);
         }
 
         
