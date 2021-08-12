@@ -4,6 +4,7 @@ using EasyList.DataModels;
 using EasyList.Enums;
 using EasyList.Factories;
 using EasyList.Interfaces;
+using Sharprompt;
 
 namespace EasyList
 {
@@ -50,6 +51,59 @@ namespace EasyList
             .Write(Format.MarkDown);
         }
 
-        
+        public void UpdateTodo(Todo todo, TodoUpdate command)
+        {
+            switch (command)
+            {
+                case TodoUpdate.Label:
+                    {
+                        Console.WriteLine("Enter the New Label: ");
+                        string? newLabel = Console.ReadLine();
+                        if (Validate.Label(newLabel))
+                        {
+                            if (!Validate.TodoErrors())
+                            {
+                                todo.Label = newLabel!;
+                            }
+                        }
+                        _todoRepository.UpdateTodo(todo);
+                        break;
+                    }
+                   
+                case TodoUpdate.Description:
+                    {
+                        Console.WriteLine("Enter the New Description: ");
+                        string? newDescription = Console.ReadLine();
+                        if (!string.IsNullOrWhiteSpace(newDescription))
+                        {
+                            todo.Description = newDescription;
+                        }
+                        _todoRepository.UpdateTodo(todo);
+                        break;
+                    }
+
+                case TodoUpdate.Priority:
+                    {
+                        todo.Priority = Prompt.Select<TodoPriority>("Select new Priority."); ;
+                        _todoRepository.UpdateTodo(todo);
+                        break;
+                    }
+
+                case TodoUpdate.DueDate:
+                    {
+                        Console.WriteLine("Enter the New Due Date: ");
+                        string? newDueDate = Console.ReadLine();
+                        if(Validate.DueDate(newDueDate))
+                        {
+                            if (!Validate.TodoErrors())
+                            {
+                                todo.DueDate = DateTimeOffset.Parse(newDueDate!);
+                            }
+                        }
+                        _todoRepository.UpdateTodo(todo);
+                        break;
+                    }
+            }
+        }
     }
 }

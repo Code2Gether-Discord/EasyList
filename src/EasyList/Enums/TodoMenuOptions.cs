@@ -7,6 +7,7 @@
         View,
         MarkAsDone,
         ListAll,
+        Update,
         Quit
     }
 }

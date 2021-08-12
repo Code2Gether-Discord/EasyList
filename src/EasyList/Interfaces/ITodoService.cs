@@ -11,5 +11,6 @@ namespace EasyList.Interfaces
         void DisplayAllTodo(TodoOrder todoOrder);
         Todo? GetTodoByID(int id);
         void MarkTodoAsDone(Todo todo);
+        void UpdateTodo(Todo todo, TodoUpdate command);
     }
 }
