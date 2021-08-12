@@ -17,11 +17,13 @@ namespace EasyList
             {
                 yield return "Label cannot be empty";
             }
-
-            if (DateTimeOffset.Parse(input["duedate"]) < DateTime.UtcNow)
-			{
-                yield return "Due date cannot be in the past";
-			}
+            if (DateTimeOffset.TryParse(input["duedate"], out DateTimeOffset tempDate))
+            {
+                if (tempDate < DateTime.UtcNow)
+                {
+                    yield return "Due date cannot be in the past";
+                }
+            }
         }
 
         private static bool Validate(TODOMENU command, Dictionary<string, string> input)
@@ -60,11 +62,14 @@ namespace EasyList
                         var parsedAdd = ParseAdd.Parse(inputAdd?.Split() ?? Array.Empty<string>());
 
                         if (Validate(action, parsedAdd))
-						{
-                            var newTodo = new Todo(parsedAdd["label"],
-                                    parsedAdd["description"],
-                                    DateTimeOffset.Parse(parsedAdd["duedate"]),
-                                    Enum.Parse<TodoPriority>(parsedAdd["priority"]));
+                        {
+                            var newTodo = new Todo()
+                            {
+                                Label = parsedAdd["label"],
+                                Description = parsedAdd["description"],
+                                DueDate = DateTimeOffset.TryParse(parsedAdd["duedate"], out DateTimeOffset tempDate) ? tempDate : null,
+                                Priority = Enum.Parse<TodoPriority>(parsedAdd["priority"])
+                            };
                             _todoService.AddTodo(newTodo);
                         }
                         

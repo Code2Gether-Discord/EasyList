@@ -52,13 +52,13 @@ namespace EasyList
             }
             string label = GetData("add", args, positions).ToString().Trim();
             string? description = positions.ContainsKey("-d") ? GetData("-d", args, positions).ToString() : string.Empty;
-            DateTimeOffset dueDate = positions.ContainsKey("-t") ? DateTimeOffset.Parse(GetData("-t", args, positions).ToString()) : DateTimeOffset.MaxValue;
+            DateTimeOffset? dueDate = positions.ContainsKey("-t") ? DateTimeOffset.Parse(GetData("-t", args, positions).ToString()) : null;
             TodoPriority priority = positions.ContainsKey("-p") ? Enum.Parse<TodoPriority>(GetData("-p", args, positions).ToString().ToUpper()) : TodoPriority.Low;
 
             return new Dictionary<string, string> {
                                                     {"label" ,label },
                                                     {"description",description },
-                                                    {"duedate",dueDate.ToString() },
+                                                    {"duedate",dueDate.ToString() ?? string.Empty },
                                                     {"priority",priority.ToString() }
                                                     };
         }
