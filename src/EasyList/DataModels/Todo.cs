@@ -18,14 +18,9 @@ namespace EasyList.DataModels
         public string Label { get; set; }
         public string? Description { get; set; }
         public TodoPriority Priority { get; set; } = TodoPriority.Low;
-
-        private DateTimeOffset _createdDate;
-        public DateTimeOffset CreatedDate
-        {
-            get => _createdDate.ToLocalTime();
-            private init => _createdDate = DateTimeOffset.UtcNow;
-        }
-        public DateTimeOffset? _dueDate;
+        private DateTimeOffset _createdDate = DateTimeOffset.UtcNow;
+        public DateTimeOffset CreatedDate => _createdDate.ToLocalTime();
+        private DateTimeOffset? _dueDate;
         public DateTimeOffset? DueDate
         {
             get => _dueDate?.ToLocalTime();

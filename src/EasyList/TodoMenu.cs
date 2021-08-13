@@ -11,8 +11,6 @@ namespace EasyList
 {
     public class TodoMenu
     {
-        
-
         public static void Run()
         {
 
@@ -93,6 +91,10 @@ namespace EasyList
                     case TODOMENU.ListAll:
                         var inputList = Prompt.Select<TodoOrder>("Select List Order: ", defaultValue: TodoOrder.CreateDate);
                         Program._todoService.DisplayAllTodo(inputList);
+                        break;
+                    case TODOMENU.Quit:
+                        Console.WriteLine("Exiting...");
+                        Environment.Exit(Environment.ExitCode = 0);
                         break;
                     case TODOMENU.Quit:
                         Console.WriteLine("Exiting...");
