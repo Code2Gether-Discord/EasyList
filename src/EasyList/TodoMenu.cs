@@ -11,8 +11,6 @@ namespace EasyList
 {
     public class TodoMenu
     {
-        
-
         public static void Run()
         {
 
