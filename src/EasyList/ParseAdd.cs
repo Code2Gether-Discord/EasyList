@@ -58,8 +58,8 @@ namespace EasyList
             return new Dictionary<string, string> {
                                                     {"label" ,label },
                                                     {"description",description },
-                                                    {"duedate",dueDate.ToString() ?? string.Empty },
-                                                    {"priority",priority.ToString() }
+                                                    {"duedate",$"{dueDate}" ?? string.Empty },
+                                                    {"priority",$"{priority}" }
                                                     };
         }
         private static StringBuilder GetData(string parameter, string[] args, Dictionary<string, (int startIndex, int endIndex)> positions)
