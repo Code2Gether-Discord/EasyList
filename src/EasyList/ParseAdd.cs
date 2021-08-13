@@ -50,10 +50,38 @@ namespace EasyList
                 //processing for Label
                 positions.Add("add", (startIndex,endIndex - 1));
             }
+
             string label = GetData("add", args, positions).ToString().Trim();
-            string? description = positions.ContainsKey("-d") ? GetData("-d", args, positions).ToString() : string.Empty;
-            DateTimeOffset? dueDate = positions.ContainsKey("-t") ? DateTimeOffset.Parse(GetData("-t", args, positions).ToString()) : null;
-            TodoPriority priority = positions.ContainsKey("-p") ? Enum.Parse<TodoPriority>(GetData("-p", args, positions).ToString().ToUpper()) : TodoPriority.Low;
+
+            string? description;
+            if (positions.ContainsKey("-d"))
+            {
+                description = GetData("-d", args, positions).ToString();
+            }
+            else
+            {
+                description = string.Empty;
+            }
+
+            DateTimeOffset? dueDate;
+            if (positions.ContainsKey("-t"))
+            {
+                dueDate = DateTimeOffset.Parse(GetData("-t", args, positions).ToString());
+            }
+            else
+            {
+                dueDate = null;
+            }
+
+            TodoPriority priority;
+            if (positions.ContainsKey("-p"))
+            {
+                priority = Enum.Parse<TodoPriority>(GetData("-p", args, positions).ToString().ToUpper());
+            }
+            else
+            {
+                priority = TodoPriority.Low;
+            }
 
             return new Dictionary<string, string> {
                                                     {"label" ,label },
