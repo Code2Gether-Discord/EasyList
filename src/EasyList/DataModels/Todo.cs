@@ -22,7 +22,7 @@ namespace EasyList.DataModels
         private DateTimeOffset _createdDate = DateTimeOffset.UtcNow;
         public DateTimeOffset CreatedDate => _createdDate.ToLocalTime();
        
-        public DateTimeOffset? _dueDate;
+        private DateTimeOffset? _dueDate;
         public DateTimeOffset? DueDate
         {
             get => _dueDate?.ToLocalTime();
