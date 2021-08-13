@@ -6,6 +6,7 @@
         Delete,
         View,
         MarkAsDone,
-        ListAll
+        ListAll,
+        Quit
     }
 }

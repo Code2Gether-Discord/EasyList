@@ -18,8 +18,16 @@ namespace EasyList.DataModels
         public string Label { get; set; }
         public string? Description { get; set; }
         public TodoPriority Priority { get; set; } = TodoPriority.Low;
-        public DateTimeOffset CreatedDate { get; } = DateTimeOffset.Now;
-        public DateTimeOffset? DueDate { get; set;}
+
+        private DateTimeOffset _createdDate = DateTimeOffset.UtcNow;
+        public DateTimeOffset CreatedDate => _createdDate.ToLocalTime();
+       
+        private DateTimeOffset? _dueDate;
+        public DateTimeOffset? DueDate
+        {
+            get => _dueDate?.ToLocalTime();
+            set => _dueDate = value?.ToUniversalTime();
+        }
         public TodoStatus Status { get; set; } = TodoStatus.InProgress;
         [BsonCtor]
         public Todo(string label, string? description = null, DateTimeOffset? dueDate = null, TodoPriority priority = TodoPriority.Low)
