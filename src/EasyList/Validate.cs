@@ -66,7 +66,7 @@ public static class Validate
 
     public static Todo? Id(int todoId)
     {
-        Todo? todoView = Program._todoService.GetTodoByID(todoId);
+        Todo? todoView = Program.TodoService.GetTodoByID(todoId);
         if (todoView == null)
         {
             errors.Add($"Invalid Id #{todoId}");

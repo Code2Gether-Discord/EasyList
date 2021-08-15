@@ -5,7 +5,7 @@ namespace EasyList
 {
     class Program
     {
-        public static ITodoService _todoService = Factory.CreateTodoServiceDB();
+        public static ITodoService TodoService => Factory.CreateTodoServiceDB();
 
         public static void Main(string[] args)
         {

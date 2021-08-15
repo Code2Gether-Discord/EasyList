@@ -35,7 +35,7 @@ namespace EasyList
                                 DueDate = DateTimeOffset.TryParse(parsedAdd["duedate"], out DateTimeOffset tempDate) ? tempDate : null,
                                 Priority = Enum.Parse<TodoPriority>(parsedAdd["priority"])
                             };
-                            Program._todoService.AddTodo(newTodo);
+                            Program.TodoService.AddTodo(newTodo);
                         }
                         break;
 
@@ -48,7 +48,7 @@ namespace EasyList
                         {
                             foreach (var todoDelete in validDeleteList)
                             {
-                                Program._todoService.DeleteTodo(todoDelete);
+                                Program.TodoService.DeleteTodo(todoDelete);
                             }                            
                         }
                         break;
@@ -60,7 +60,7 @@ namespace EasyList
 
                         if(!Validate.TodoErrors())
                         {
-                            Program._todoService.DisplayTodo(todoView!);
+                            Program.TodoService.DisplayTodo(todoView!);
                         }
                         break;
 
@@ -73,7 +73,7 @@ namespace EasyList
                         {
                             foreach (var todoDelete in validTodoList)
                             {
-                                Program._todoService.MarkTodoAsDone(todoDelete);
+                                Program.TodoService.MarkTodoAsDone(todoDelete);
                             }
                         }
                         break;
@@ -85,12 +85,12 @@ namespace EasyList
 
                         if (!Validate.TodoErrors())
                         {
-                            Program._todoService.UpdateTodo(validTodo!, inputUpdateAction);
+                            Program.TodoService.UpdateTodo(validTodo!, inputUpdateAction);
                         }
                         break;
                     case TODOMENU.ListAll:
                         var inputList = Prompt.Select<TodoOrder>("Select List Order: ", defaultValue: TodoOrder.CreateDate);
-                        Program._todoService.DisplayAllTodo(inputList);
+                        Program.TodoService.DisplayAllTodo(inputList);
                         break;
                     case TODOMENU.Quit:
                         Console.WriteLine("Exiting...");
