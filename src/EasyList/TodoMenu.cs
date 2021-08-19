@@ -1,52 +1,48 @@
 ﻿using EasyList.DataModels;
 using EasyList.Enums;
-using EasyList.Factories;
-using EasyList.Interfaces;
 using Sharprompt;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace EasyList
 {
     public class TodoMenu
     {
+
         public static void Run()
         {
-
-            while(true)
+            var _todoValidate = new Validate();
+            while (true)
             {
                 var action = Prompt.Select<TODOMENU>("Welcome to EasyList!");
                 //Refactor this such that adding new should not modify this input layer
                 switch (action)
                 {
+                    
                     case TODOMENU.Add:
-                        var inputAdd = Prompt.Input<string>("Enter TODO ");
-                        var parsedAdd = ParseAdd.Parse(inputAdd?.Split() ?? Array.Empty<string>());
-
-                        Validate.Add(parsedAdd);
-
-                        if (!Validate.TodoErrors())
                         {
-                            var newTodo = new Todo()
+                            var inputAdd = Prompt.Input<string>("Enter TODO ");
+                            var parsedAdd = ParseAdd.Parse(inputAdd?.Split() ?? Array.Empty<string>());
+                            
+                            if (_todoValidate.IsAddValid(parsedAdd))
                             {
-                                Label = parsedAdd["label"],
-                                Description = parsedAdd["description"],
-                                DueDate = DateTimeOffset.TryParse(parsedAdd["duedate"], out DateTimeOffset tempDate) ? tempDate : null,
-                                Priority = Enum.Parse<TodoPriority>(parsedAdd["priority"])
-                            };
-                            Program.TodoService.AddTodo(newTodo);
+                                var newTodo = new Todo()
+                                {
+                                    Label = parsedAdd["label"],
+                                    Description = parsedAdd["description"],
+                                    DueDate = DateTimeOffset.TryParse(parsedAdd["duedate"], out DateTimeOffset tempDate) ? tempDate : null,
+                                    Priority = Enum.Parse<TodoPriority>(parsedAdd["priority"])
+                                };
+                                Program.TodoService.AddTodo(newTodo);
+                            }
+                            break;
                         }
-                        break;
-
                     case TODOMENU.Delete:
                         var inputDelete = Prompt.Input<string>("Enter TODO ID(s) ").Split();
-                        
-                        var validDeleteList = Validate.MultipleIds(inputDelete.ToIntIds());
 
-                        if (!Validate.TodoErrors())
+                        if (_todoValidate.IsDeleteValid(inputDelete,out List<Todo> todoDeleteList))
                         {
-                            foreach (var todoDelete in validDeleteList)
+                            foreach (var todoDelete in todoDeleteList)
                             {
                                 Program.TodoService.DeleteTodo(todoDelete);
                             }                            
@@ -54,48 +50,51 @@ namespace EasyList
                         break;
 
                     case TODOMENU.View:
-                        var inputView = Prompt.Input<int>("Enter TODO ID ");
-
-                        var todoView = Validate.Id(inputView);
-
-                        if(!Validate.TodoErrors())
                         {
-                            Program.TodoService.DisplayTodo(todoView!);
-                        }
-                        break;
-
-                    case TODOMENU.MarkAsDone:
-                        var inputDone = Prompt.Input<string>("Enter TODO ID(s) ").Split();
-
-                        var validTodoList = Validate.MultipleIds(inputDone.ToIntIds());
-
-                        if (!Validate.TodoErrors())
-                        {
-                            foreach (var todoDelete in validTodoList)
+                            var inputView = Prompt.Input<string>("Enter TODO ID ");
+                            
+                            if (_todoValidate.IsReadValid(inputView, out Todo validTodo))
                             {
-                                Program.TodoService.MarkTodoAsDone(todoDelete);
+                                Program.TodoService.DisplayTodo(validTodo);
                             }
+                            break;
                         }
-                        break;
-                    case TODOMENU.Update:
-                        var inputUpdateAction = Prompt.Select<TodoUpdate>("Select Update Action");
-                        var inputUpdate = Prompt.Input<int>("Enter the ID to Update");
-
-                        var validTodo = Validate.Id(inputUpdate);
-
-                        if (!Validate.TodoErrors())
+                    case TODOMENU.MarkAsDone:
                         {
-                            Program.TodoService.UpdateTodo(validTodo!, inputUpdateAction);
+                            var inputDone = Prompt.Input<string>("Enter TODO ID(s) ").Split();
+
+                            if (_todoValidate.CanMarkAsDone(inputDone, out List<Todo> doneTodoList))
+                            {
+                                foreach (var doneTodo in doneTodoList)
+                                {
+                                    Program.TodoService.MarkTodoAsDone(doneTodo);
+                                }
+                            }
+                            break;
                         }
-                        break;
+                    case TODOMENU.Update:
+                        {
+                            var inputUpdateAction = Prompt.Select<TodoUpdate>("Select Update Action");
+                            var inputUpdate = Prompt.Input<string>("Enter the ID to Update");
+                            
+                            if (_todoValidate.IsReadValid(inputUpdate, out Todo validTodo))
+                            {
+                                Program.TodoService.UpdateTodo(validTodo, inputUpdateAction);
+                            }
+                            break;
+                        }
                     case TODOMENU.ListAll:
-                        var inputList = Prompt.Select<TodoOrder>("Select List Order: ", defaultValue: TodoOrder.CreateDate);
-                        Program.TodoService.DisplayAllTodo(inputList);
-                        break;
+                        {
+                            var inputList = Prompt.Select<TodoOrder>("Select List Order: ", defaultValue: TodoOrder.CreateDate);
+                            Program.TodoService.DisplayAllTodo(inputList);
+                            break;
+                        }
                     case TODOMENU.Quit:
-                        Console.WriteLine("Exiting...");
-                        Environment.Exit(Environment.ExitCode = 0);
-                        break;
+                        {
+                            Console.WriteLine("Exiting...");
+                            Environment.Exit(Environment.ExitCode = 0);
+                            break;
+                        }
                 }
 
                 Console.ReadLine();

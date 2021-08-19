@@ -53,20 +53,19 @@ namespace EasyList
 
         public void UpdateTodo(Todo todo, TodoUpdate command)
         {
+            var _todoValidate = new Validate();
             switch (command)
             {
                 case TodoUpdate.Label:
                     {
                         Console.WriteLine("Enter the New Label: ");
                         string? newLabel = Console.ReadLine();
-                        if (Validate.Label(newLabel))
+                        if (_todoValidate.IsLabelValid(newLabel))
                         {
-                            if (!Validate.TodoErrors())
-                            {
-                                todo.Label = newLabel!;
-                            }
+                            todo.Label = newLabel;
+                            _todoRepository.UpdateTodo(todo);
+                            Console.WriteLine("Label Updated Sucessfully.");
                         }
-                        _todoRepository.UpdateTodo(todo);
                         break;
                     }
                    
@@ -74,11 +73,12 @@ namespace EasyList
                     {
                         Console.WriteLine("Enter the New Description: ");
                         string? newDescription = Console.ReadLine();
-                        if (!string.IsNullOrWhiteSpace(newDescription))
+                        if (_todoValidate.IsUpdateDescriptionValid(newDescription))
                         {
                             todo.Description = newDescription;
+                            _todoRepository.UpdateTodo(todo);
+                            Console.WriteLine("Description Updated Sucessfully.");
                         }
-                        _todoRepository.UpdateTodo(todo);
                         break;
                     }
 
@@ -93,14 +93,13 @@ namespace EasyList
                     {
                         Console.WriteLine("Enter the New Due Date: ");
                         string? newDueDate = Console.ReadLine();
-                        if(Validate.DueDate(newDueDate))
+                        if(_todoValidate.IsDueDateValid(newDueDate))
                         {
-                            if (!Validate.TodoErrors())
-                            {
-                                todo.DueDate = DateTimeOffset.Parse(newDueDate!);
-                            }
+                            
+                            todo.DueDate = DateTimeOffset.Parse(newDueDate!);
+                            _todoRepository.UpdateTodo(todo);
+                            Console.WriteLine("Due Date Updated Sucessfully.");
                         }
-                        _todoRepository.UpdateTodo(todo);
                         break;
                     }
             }

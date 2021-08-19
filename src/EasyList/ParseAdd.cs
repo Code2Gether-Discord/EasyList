@@ -54,7 +54,7 @@ namespace EasyList
             string label = GetData("add", args, positions) ?? string.Empty;
             string description = GetData("-d", args, positions) ?? string.Empty;
             string dueDate = GetData("-t", args, positions) ?? string.Empty;
-            string priority = GetData("-p", args, positions) ?? "${TodoPriority.Low}";
+            string priority = GetData("-p", args, positions) ?? $"{TodoPriority.Low}";
             
             return new Dictionary<string, string> {
                                                     {"label" ,label },

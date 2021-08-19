@@ -1,15 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 
-public static class Utility
+namespace EasyList
 {
-    public static IEnumerable<int> ToIntIds(this string[] input)
+    public static class Utility
     {
-        foreach (var item in input)
+        public static IEnumerable<int> ToIntIds(this string[] input)
         {
-            if (int.TryParse(item, out int num))
+            foreach (var item in input)
             {
-                yield return num;
+                if (int.TryParse(item, out int num))
+                {
+                    yield return num;
+                }
             }
         }
     }
