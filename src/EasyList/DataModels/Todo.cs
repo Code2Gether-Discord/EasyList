@@ -18,10 +18,8 @@ namespace EasyList.DataModels
         public string Label { get; set; }
         public string? Description { get; set; }
         public TodoPriority Priority { get; set; } = TodoPriority.Low;
-
         private DateTimeOffset _createdDate = DateTimeOffset.UtcNow;
         public DateTimeOffset CreatedDate => _createdDate.ToLocalTime();
-       
         private DateTimeOffset? _dueDate;
         public DateTimeOffset? DueDate
         {
