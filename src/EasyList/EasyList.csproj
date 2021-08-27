@@ -7,9 +7,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="ConsoleTables" Version="2.4.2" />
+    <PackageReference Include="ConsoleTableExt" Version="3.1.9" />
     <PackageReference Include="LiteDB" Version="5.0.10" />
-    <PackageReference Include="Sharprompt" Version="2.2.1" />
+    <PackageReference Include="Sharprompt" Version="2.3.3" />
     <PackageReference Include="System.Collections.Specialized" Version="4.3.0" />
     <PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
   </ItemGroup>
