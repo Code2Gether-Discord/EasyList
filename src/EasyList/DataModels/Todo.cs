@@ -19,13 +19,12 @@ namespace EasyList.DataModels
         public string? Description { get; set; }
         public TodoPriority Priority { get; set; } = TodoPriority.Low;
 
-        private DateTimeOffset _createdDate = DateTimeOffset.UtcNow;
-        public DateTimeOffset CreatedDate => _createdDate.ToLocalTime();
-       
+        public DateTimeOffset CreatedDate { get; init; }
+
         private DateTimeOffset? _dueDate;
         public DateTimeOffset? DueDate
         {
-            get => _dueDate?.ToLocalTime();
+            get => _dueDate;
             set => _dueDate = value?.ToUniversalTime();
         }
         public TodoStatus Status { get; set; } = TodoStatus.InProgress;
@@ -38,11 +37,13 @@ namespace EasyList.DataModels
             this.Description = description;
             this.Priority = priority;
             this.DueDate = dueDate;
+            this.CreatedDate = DateTimeOffset.UtcNow;
             Status = TodoStatus.InProgress;
         }
 #nullable disable
         public Todo()
         {
+            this.CreatedDate = DateTimeOffset.UtcNow;
         }
 #nullable enable
         //public Todo(Todo newTodo)
