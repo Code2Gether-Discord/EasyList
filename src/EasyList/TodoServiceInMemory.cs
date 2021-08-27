@@ -1,5 +1,7 @@
 ﻿using System;
-using ConsoleTables;
+using System.Collections.Generic;
+using System.Linq;
+using ConsoleTableExt;
 using EasyList.DataModels;
 using EasyList.Enums;
 using EasyList.Factories;
@@ -42,10 +44,27 @@ namespace EasyList
         }
         public  void DisplayAllTodo(TodoOrder todoOrder)
         {
-            ConsoleTable
-            .From<Todo>(_todoRepository.GetAllTodo(todoOrder))
-            .Configure(o => o.NumberAlignment = Alignment.Right)
-            .Write(Format.MarkDown);
+            var _todoList = _todoRepository.GetAllTodo(todoOrder)
+                           .Select(x => new { x.Id, x.Label, x.Description, x.Priority, x.Status, CreateDate = x.CreatedDate.DateTime.ToLocalTime(), DueDate = x.DueDate?.DateTime.ToLocalTime() });
+
+            ConsoleTableBuilder
+            .From(_todoList.ToList())
+            .WithCharMapDefinition(
+                    CharMapDefinition.FramePipDefinition,
+                    new Dictionary<HeaderCharMapPositions, char> {
+                        {HeaderCharMapPositions.TopLeft, '╒' },
+                        {HeaderCharMapPositions.TopCenter, '╤' },
+                        {HeaderCharMapPositions.TopRight, '╕' },
+                        {HeaderCharMapPositions.BottomLeft, '╞' },
+                        {HeaderCharMapPositions.BottomCenter, '╪' },
+                        {HeaderCharMapPositions.BottomRight, '╡' },
+                        {HeaderCharMapPositions.BorderTop, '═' },
+                        {HeaderCharMapPositions.BorderRight, '│' },
+                        {HeaderCharMapPositions.BorderBottom, '═' },
+                        {HeaderCharMapPositions.BorderLeft, '│' },
+                        {HeaderCharMapPositions.Divider, '│' },
+                    })
+                .ExportAndWriteLine(TableAligntment.Center);
         }
 
         
