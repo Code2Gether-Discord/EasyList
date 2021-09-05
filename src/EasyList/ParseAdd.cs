@@ -1,10 +1,46 @@
 ﻿using EasyList.Enums;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace EasyList
 {
+    public static class OptionParser
+    {
+        public static IEnumerable<(string option, string value)> ParseOptions(string[] options, string[] inputs)
+        {
+            var optionIndexes = options
+                .Where(x => inputs.Contains(x))
+                .Select((value) => (value, index: Array.IndexOf(inputs, value)))
+                .OrderBy(x => x.index).ToArray();
+
+            for (int i = 0; i < optionIndexes.Length; i++)
+            {
+                var valueStartIndex = 0;
+                var valueEndIndex = 0;
+
+                var nextIndex = i + 1;
+
+                if (nextIndex == optionIndexes.Length) //last option
+                {
+                    valueStartIndex = optionIndexes[i].index + 1; //value comes after the option
+                    valueEndIndex = inputs.Length;
+                }
+                else
+                {
+                    valueStartIndex = optionIndexes[i].index + 1;
+                    valueEndIndex = optionIndexes[nextIndex].index;
+                }
+
+                var values = inputs[valueStartIndex..valueEndIndex];
+                var value = string.Join(' ', values);
+
+                yield return (optionIndexes[i].value, value);
+            }
+        }
+    }
+
     public static class ParseAdd
     {
         public static Dictionary<string, string> Parse(string[] args)
@@ -56,7 +92,7 @@ namespace EasyList
             string description = GetData("-d", args, positions) ?? string.Empty;
             string dueDate = GetData("-t", args, positions) ?? string.Empty;
             string priority = GetData("-p", args, positions) ?? $"{TodoPriority.Low}";
-            
+
             return new Dictionary<string, string> {
                                                     {"label" ,label },
                                                     {"description",description },
