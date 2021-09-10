@@ -1,6 +1,7 @@
 ﻿using EasyList.Enums;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 
@@ -8,8 +9,18 @@ namespace EasyList
 {
     public static class OptionParser
     {
-        public static IEnumerable<(string option, string value)> ParseOptions(string[] options, string[] inputs)
+        /// <summary>
+        /// Gets the values from the input string out of a choosen set of options
+        /// Use .TryGetValue(nameof(Class.PropertyName)) on the returned result
+        /// </summary>
+        /// <param name="options"></param>
+        /// <param name="inputs"></param>
+        /// <param name="prefixToRemove"></param>
+        /// <returns>The option ToTitleCase if a prefix will be removed and its corresponding value in a dictionary.</returns>
+        public static Dictionary<string, string> Parse(string[] options, string[] inputs, string prefixToRemove = null)
         {
+            var optionsValues = new Dictionary<string, string>();
+
             var optionIndexes = options
                 .Where(x => inputs.Contains(x))
                 .Select((value) => (value, index: Array.IndexOf(inputs, value)))
@@ -19,7 +30,6 @@ namespace EasyList
             {
                 var valueStartIndex = 0;
                 var valueEndIndex = 0;
-
                 var nextIndex = i + 1;
 
                 if (nextIndex == optionIndexes.Length) //last option
@@ -34,10 +44,26 @@ namespace EasyList
                 }
 
                 var values = inputs[valueStartIndex..valueEndIndex];
+
+                if (values.Length < 1) //no value inputted
+                {
+                    continue;
+                }
+
                 var value = string.Join(' ', values);
 
-                yield return (optionIndexes[i].value, value);
+                if (!string.IsNullOrWhiteSpace(prefixToRemove))
+                {
+                    var formattedOption = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(optionIndexes[i].value.Replace(prefixToRemove, string.Empty));
+                    optionsValues.Add(formattedOption, value);
+                }
+                else
+                {
+                    optionsValues.Add(optionIndexes[i].value, value);
+                }
             }
+
+            return optionsValues;
         }
     }
 
