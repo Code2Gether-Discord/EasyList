@@ -9,61 +9,32 @@ namespace EasyList
 {
     public static class OptionParser
     {
-        /// <summary>
-        /// Gets the values from the input string out of a choosen set of options
-        /// Use .TryGetValue(nameof(Class.PropertyName)) on the returned result
-        /// </summary>
-        /// <param name="options"></param>
-        /// <param name="inputs"></param>
-        /// <param name="prefixToRemove"></param>
-        /// <returns>The option ToTitleCase if a prefix will be removed and its corresponding value in a dictionary.</returns>
-        public static Dictionary<string, string> Parse(string[] options, string[] inputs, string prefixToRemove = null)
+        public static Dictionary<string, string> Parse(string[] options, string[] inputs, string? prefixToRemove = null)
         {
-            var optionsValues = new Dictionary<string, string>();
-
             var optionIndexes = options
-                .Where(x => inputs.Contains(x))
-                .Select((value) => (value, index: Array.IndexOf(inputs, value)))
-                .OrderBy(x => x.index).ToArray();
+                .Where(opt => inputs.Contains(opt))
+                .Select(opt => (name: opt, start: Array.IndexOf(inputs, opt)))
+                .OrderBy(opt => opt.start);
 
-            for (int i = 0; i < optionIndexes.Length; i++)
-            {
-                var valueStartIndex = 0;
-                var valueEndIndex = 0;
-                var nextIndex = i + 1;
+            var optionLocations = optionIndexes
+                .Select(curr => (curr.name, start: curr.start + 1, end: optionIndexes.FirstOrDefault(next => next.start > curr.start).start));
 
-                if (nextIndex == optionIndexes.Length) //last option
+            return optionLocations.ToDictionary(
+                opt =>
                 {
-                    valueStartIndex = optionIndexes[i].index + 1; //value comes after the option
-                    valueEndIndex = inputs.Length;
-                }
-                else
+                    var name = opt.name;
+                    if (prefixToRemove != null)
+                    {
+                        name = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(opt.name.Replace(prefixToRemove, string.Empty));
+                    }
+                    return name;
+                },
+                opt =>
                 {
-                    valueStartIndex = optionIndexes[i].index + 1;
-                    valueEndIndex = optionIndexes[nextIndex].index;
+                    var end = opt.end == 0 ? inputs.Length : opt.end;
+                    return string.Join(' ', inputs[opt.start..end]);
                 }
-
-                var values = inputs[valueStartIndex..valueEndIndex];
-
-                if (values.Length < 1) //no value inputted
-                {
-                    continue;
-                }
-
-                var value = string.Join(' ', values);
-
-                if (!string.IsNullOrWhiteSpace(prefixToRemove))
-                {
-                    var formattedOption = CultureInfo.CurrentCulture.TextInfo.ToTitleCase(optionIndexes[i].value.Replace(prefixToRemove, string.Empty));
-                    optionsValues.Add(formattedOption, value);
-                }
-                else
-                {
-                    optionsValues.Add(optionIndexes[i].value, value);
-                }
-            }
-
-            return optionsValues;
+            );
         }
     }
 
