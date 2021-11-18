@@ -46,8 +46,10 @@ namespace EasyList
         }
         public void DisplayAllTodo(TodoOrder todoOrder)
         {
+            int Id = 1;
+
             var _todoList = _todoRepository.GetAllTodo(todoOrder)
-                            .Select(x => new { x.Id, x.Label, x.Description, x.Priority, x.Status, CreateDate = x.CreatedDate.DateTime.ToLocalTime() , DueDate = x.DueDate?.DateTime.ToLocalTime() });
+                            .Select(x => new { Id = Id++, x.Label, x.Description, x.Priority, x.Status, CreateDate = x.CreatedDate.DateTime.ToLocalTime(), DueDate = x.DueDate?.DateTime.ToLocalTime() });
 
             ConsoleTableBuilder
             .From(_todoList.ToList())
@@ -69,6 +71,6 @@ namespace EasyList
                 .ExportAndWriteLine(TableAligntment.Center);
         }
 
-        
+
     }
 }
