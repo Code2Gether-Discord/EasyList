@@ -54,7 +54,7 @@ namespace EasyList
 
 
 
-            var table = new ConsoleTable("Id", "Label", "Description", "Priority", "Status", "Create Date", "Due Date");
+            var table = new ConsoleTable(nameof(Todo.Id), nameof(Todo.Label), nameof(Todo.Description), nameof(Todo.Priority), nameof(Todo.Status), nameof(Todo.CreatedDate), nameof(Todo.DueDate));
 
             _todoList.ToList()
             .ForEach(
