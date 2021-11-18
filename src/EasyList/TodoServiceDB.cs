@@ -52,10 +52,16 @@ namespace EasyList
             var _todoList = _todoRepository.GetAllTodo(todoOrder)
                             .Select(x => new { x.Id, DisplayId = DisplayId++, x.Label, x.Description, x.Priority, x.Status, CreateDate = x.CreatedDate.DateTime.ToLocalTime(), DueDate = x.DueDate?.DateTime.ToLocalTime() });
 
-            ConsoleTable
-                 .From(_todoList.ToList())
-                 .Configure(o => o.NumberAlignment = Alignment.Right)
-                 .Write();
+
+
+            var table = new ConsoleTable("Id", "Label", "Description", "Priority", "Status", "Create Date", "Due Date");
+
+            _todoList.ToList()
+            .ForEach(
+                x => table.AddRow(x.DisplayId, x.Label, x.Description, x.Priority, x.Status, x.CreateDate, x.DueDate)
+            );
+
+            table.Write();
         }
 
 
